@@ -1,0 +1,38 @@
+# Reduce converse array to object
+
+```tsx
+const colors = [
+  {
+    id: 'xekare',
+    title: 'rad red',
+    rating: 3,
+  },
+  {
+    id: 'jbwsof',
+    title: 'big blue',
+    rating: 2,
+  },
+  {
+    id: 'prigbj',
+    title: 'grizzy grey',
+    rating: 5,
+  },
+  {
+    id: 'ryhbhsl',
+    title: 'banana',
+    rating: 1,
+  },
+];
+
+const hashColors = colors.reduce<{
+  [key: string]: {
+    title: string;
+    rating: number;
+  };
+}>((hash, { id, title, rating }) => {
+  hash[id] = { title, rating };
+  return hash;
+}, {});
+
+console.log(hashColors);
+```
