@@ -1,5 +1,3 @@
-# TypeScript 规范
-
 ## 命名
 
 TypeScript 类型别名/接口以及类均使用大写开头。
