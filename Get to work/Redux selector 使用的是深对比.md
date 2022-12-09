@@ -19,3 +19,5 @@ export const useShallowEqualSelector: TypedUseSelectorHook<RootState> = (
   selector
 ) => useAppSelector(selector, shallowEqual);
 ```
+
+如果 selector 是从 store 中返回的对象，而不是从 selector 中创建的，由于 store 中的对象不会每次地址都不一样，则不会导致不必要的渲染。
