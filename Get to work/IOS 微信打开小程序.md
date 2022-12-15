@@ -1,4 +1,4 @@
-在 IOS 微信中使用开放标签打开小程序时，不能将 `path` 设置为根路径。否则再多次打开后会提示 `relativePath is empt` 的错误。
+在 IOS 微信中使用开放标签打开小程序时，不能将 `path` 设置为根路径。否则再多次打开后会提示 `relativeURL is empty` 的错误。
 
 ```tsx
         {/* @ts-ignore */}
@@ -24,3 +24,4 @@
         </wx-open-launch-weapp>
 ```
 
+![[Pasted image 20221215173532.png]]
