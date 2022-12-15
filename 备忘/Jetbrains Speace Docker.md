@@ -7,7 +7,7 @@ https://assets.on-premises.service.jetbrains.space/
 ```yml
 version: '3.8'
 
-services:
+services:Jetbrains Speace Docker
   init-configs:
     image: 'public.registry.jetbrains.space/p/space-on-premises/docker/init-configs:2022.1.0-BETA'
     volumes:
