@@ -1,0 +1,1 @@
+Bottom tab 有使用 `createBottomTabNavigator` 
