@@ -58,3 +58,4 @@ export default function App() {
 }
 ```
 
+没错，这就和以前版本类式组件中的 `setState` 类似。
