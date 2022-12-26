@@ -59,3 +59,19 @@ export default function App() {
 ```
 
 没错，这就和以前版本类式组件中的 `setState` 类似。
+
+```tsx
+class User extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "xfy",
+      age: 18
+    };
+  }
+
+  render() {
+    return <button onSubmit={() => this.setState({ name: "" })}></button>;
+  }
+}
+```
