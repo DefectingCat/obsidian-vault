@@ -4,3 +4,6 @@ Antd-mobile 使用的是旧版本 `2.3.4` 吗，但其 `Carousel` 组件需要�
 yarn add patch-package -D
 ```
 
+```
+npx patch-package rmc-nuka-carousel
+```
