@@ -1,5 +1,3 @@
-# SVG viewBox
-
 SVG `viewBox` 属性决定了其位置与尺寸。属性分别为`min-x`, `min-y`, `width` and `height` 。
 
 要想一个 SVG 可以随着其父元素或 CSS 决定大小，需要设置 `viewBox` 的 `width` and `height` 为其本身的大小。

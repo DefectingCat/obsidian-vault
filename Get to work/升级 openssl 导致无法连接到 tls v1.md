@@ -1,5 +1,3 @@
-# 升级 openssl 导致无法连接到 tls v1
-
 [https://github.com/Kong/insomnia/issues/4543#issuecomment-1126771807](https://github.com/Kong/insomnia/issues/4543#issuecomment-1126771807)
 
 Hello,
