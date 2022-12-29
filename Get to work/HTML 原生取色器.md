@@ -1,5 +1,3 @@
-# HTML 原生取色器
-
 `[<input>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)` elements of type **`color`** provide a user interface element that lets a user specify a color, either by using a visual color picker interface or by entering the color into a text field in `#rrggbb` hexadecimal format.
 
 [https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color)

@@ -1,5 +1,3 @@
-# useMouseDragScrool
-
 ```tsx
 import React, { useCallback, useEffect, useRef } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';

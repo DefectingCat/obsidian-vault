@@ -1,5 +1,3 @@
-# SVG 支持动画
-
 SVG 支持改变宽高动画，普通元素需要设置 `max-width` 或 `max-height`  才能支持改变宽高的动画
 
 ```tsx

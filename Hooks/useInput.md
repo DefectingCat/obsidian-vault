@@ -1,5 +1,3 @@
-# useInput
-
 ```tsx
 type UseInput = [
   { value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void },

@@ -1,5 +1,3 @@
-# Copy to clipboard
-
 复制到剪贴板中有两个方法，分别是现代的 Clipboard API 和 已经被标记为 deprecated 的 `execCommand()` 方法。
 
 其中 Clipboard API 需要 http 才能使用。

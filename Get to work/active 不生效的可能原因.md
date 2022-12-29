@@ -1,5 +1,3 @@
-# :active 不生效的可能原因
-
 对于某些元素来说，CSS `:active` 需要在 `:hover` 之后才能生效。
 
 ```tsx

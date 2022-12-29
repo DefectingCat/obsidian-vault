@@ -1,5 +1,3 @@
-# CSS 单行省略
-
 ```css
 max-width: 3em;
 overflow: hidden;
