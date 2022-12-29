@@ -58,5 +58,7 @@ http://www.test.com www.example.com/index.html
 转发 `aishow.aiyunhuizhan.com` 到 `127.0.0.1:3000`：
 
 ```
-aishow.aiyunhuizhan.com 127.0.0.1:3000
+aishow.aiyunhuizhan.com http://127.0.0.1:3000
 ```
+
+http://aishow.aiyunhuizhan.com/#/viewer?booth_id=74E21382-74C1-2377-B548-DB592D3B1B22
