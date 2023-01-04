@@ -5,6 +5,7 @@ let mapleader=" "
 
 """ Plugins  --------------------------------
 Plug 'easymotion/vim-easymotion'
+Plug 'preservim/nerdtree`
 set surround
 set multiple-cursors
 set commentary
@@ -53,7 +54,8 @@ nnoremap <leader>h <c-w>h
 nnoremap <leader>l <c-w>l
 nnoremap <leader>j <c-w>j
 nnoremap <leader>k <c-w>k
-nnoremap <leader>e :action ActivateProjectToolWindow<CR>
+""" nnoremap <leader>e :action ActivateProjectToolWindow<CR>
+nnoremap <leader>e :NERDTreeToggle<CR>
 """ nnoremap <leader>f :action FindInPath<CR>
 nnoremap <leader>f :action GotoFile<CR>
 """ Switch tabs
