@@ -1,1 +1,0 @@
-根据 OpenWrt 的 [文件系统](https://openwrt.org/docs/techref/filesystems) 在默认情况下编译的是 SquashFS 的只读文件系统。这也是大多数路由器可恢复出厂设置的功能来源。
