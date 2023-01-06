@@ -20,7 +20,7 @@ SVG `viewBox` 属性决定了其位置与尺寸。属性分别为`min-x`, `min-
 
 其中 `rect` 的大小为 `width="38" height="38"` ，当设置了 `viewBox="0 0 38 38"` 后，就可以设置对其设置大小。
 
-![close.svg](SVG%20viewBox%20e65035b781e14d499c30cb339e579bf0/close.svg)
+![close.svg](close.svg)
 
 <aside>
 💡 当设置了 `viewBox` 后没有为 SVG 明确的设置大小时，它会 100% 的占用父元素。
