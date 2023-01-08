@@ -1,0 +1,1 @@
+https://www.techkoala.top/openwrt_resize/
