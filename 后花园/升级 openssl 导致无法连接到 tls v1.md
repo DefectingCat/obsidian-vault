@@ -27,3 +27,15 @@ Options = UnsafeLegacyRenegotiation
 [provider_sect]
 default = default_sect
 ```
+
+## For Ubuntu
+
+```tsx
+[ssl_sect]
+system_default = system_default_sect
+
+[system_default_sect]
+CipherString = DEFAULT:@SECLEVEL=0
+MinProtocol = TLSv1
+# Options = UnsafeLegacyRenegotiation
+```
