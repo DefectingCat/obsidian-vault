@@ -134,4 +134,4 @@ export default [
   }, [cate?.kid_type, generateCategory]);
 ```
 
-![Untitled](React%20%E4%B8%AD%E7%9A%84%E9%80%92%E5%BD%92%E6%B8%B2%E6%9F%93%208fdae296a40748c7bb480170b6eaba89/Untitled.png)
+![Untitled](后花园/React%20中的递归渲染%208fdae296a40748c7bb480170b6eaba89/Untitled.png)

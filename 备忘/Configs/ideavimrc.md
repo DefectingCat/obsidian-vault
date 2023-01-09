@@ -1,6 +1,4 @@
 ```
-"" Source your .vimrc
-"source ~/.vimrc
 let mapleader=" "
 
 """ Plugins  --------------------------------
@@ -33,7 +31,6 @@ set ideastatusicon=gray
 set idearefactormode=keep
 
 " Don't use Ex mode, use Q for formatting.
-
 map Q gq
 
 """ Mappings --------------------------------
@@ -56,7 +53,7 @@ nnoremap <leader>j <c-w>j
 nnoremap <leader>k <c-w>k
 """ nnoremap <leader>e :action ActivateProjectToolWindow<CR>
 nnoremap <leader>e :NERDTreeToggle<CR>
-""" nnoremap <leader>f :action FindInPath<CR>
+nnoremap ;r :action FindInPath<CR>
 nnoremap <C-p> :action GotoFile<CR>
 """ Switch tabs
 nmap <C-i> :action NextTab<CR>
