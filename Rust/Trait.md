@@ -135,3 +135,50 @@ fn main() {
 ```
 
 但这样的问题是，我们保存未知类型的数据。直白点说就是无法保存实现了 Draw 这个 trait 的任意类型。
+
+既然问题已经很明确了，我们确实可以把 Draw 特征的对象作为类型，填入到数组中。这就是特征对象。
+
+**特征对象**指向实现了 `Draw` 特征的类型的实例，也就是指向了 `Button` 或者 `Input` 的实例，这种映射关系是存储在一张表中，可以在运行时通过特征对象找到具体调用的类型方法。
+
+可以通过 `&` 引用或者 `Box<T>` 智能指针的方式来创建特征对象。
+
+```rust
+// 若 T 实现了 Draw 特征， 则调用该函数时传入的 Box<T> 可以被隐式转换成函数参数签名中的 Box<dyn Draw>
+fn draw1(x: Box<dyn Draw>) {
+    // 由于实现了 Deref 特征，Box 智能指针会自动解引用为它所包裹的值，然后调用该值对应的类型上定义的 `draw` 方法
+    x.draw();
+}
+
+fn draw2(x: &dyn Draw) {
+    x.draw();
+}
+```
+
+也就是说我们可以：
+
+```rust
+struct Screen {
+    pub components: Vec<Box<dyn Draw>>,
+}
+impl Screen {
+    pub fn new(components: Vec<Box<dyn Draw>>) -> Self {
+        Self { components }
+    }
+    pub fn run(&self) {
+        let Self { components } = self;
+        // for component in components.iter() {
+        //     component.draw()
+        // }
+        components.iter().for_each(|component| component.draw())
+    }
+}
+
+fn main() {
+    let button = Button::new(100, 44, "Submit".to_string());
+    let input = Input::new(200, 44, "".to_string());
+    let screen = Screen::new(vec![Box::new(button), Box::new(input)]);
+    screen.run();
+}
+```
+
+在
