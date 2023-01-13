@@ -95,4 +95,20 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 
 ## 特征对象
 
-Trait 与某些语言中的接口非常的类似，但不同的是 trait 不能作为
+Trait 与某些语言中的接口非常的类似，但不同的是当用作 trait 作为函数返回值时 `impl Trait` 是不支持多种类型的返回值的。
+
+```rust
+fn returns_summarizable(switch: bool) -> impl Summary {
+    if switch {
+        Post {
+           // ...
+        }
+    } else {
+        Weibo {
+            // ...
+        }
+    }
+}
+```
+
+同时，当我们需要在一个列表中保存一些实现了某个 trait 对象的数据，但是他们的类型却不相同。
