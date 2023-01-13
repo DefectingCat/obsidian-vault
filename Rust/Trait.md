@@ -62,4 +62,34 @@ pub fn notify(item: &impl Summary) -> String {
 }
 ```
 
-它的意思是 实现了Summary特征 的 item 参数。只要任何实现了 `Summary` Trait
+它的意思是 实现了Summary特征 的 item 参数。只要任何实现了 `Summary` Trait 的参数都可以接受。
+
+## 特征约束
+
+虽然 `(item: &impl Summar)` 这种写法非常好理解，但实际上它只是一个语法糖：
+
+```rust
+pub fn notify<T: Summary>(item: &T) -> String {
+    format!("Breaking news {}", item.summarize())
+}
+```
+
+即为特征约束。
+
+### Where 从句
+
+当特征约束变得很多时，函数的签名将变得很复杂：
+
+```rust
+fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 {}
+```
+
+严格来说，上面的例子还是不够复杂，但是我们还是能对其做一些形式上的改进，通过 where：
+
+```rust
+fn some_function<T, U>(t: &T, u: &U) -> i32
+    where T: Display + Clone,
+          U: Clone + Debug
+{}
+```
+
