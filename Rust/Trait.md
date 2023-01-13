@@ -181,4 +181,27 @@ fn main() {
 }
 ```
 
-在
+通过这种方法，就可以在 `Screen::components` 中保存实现了 Draw 的任意类型。是不是有点像鸭子类型呢。没错，它就是。
+
+我们的老朋友 TypeScript 所有的类型基本都是鸭子类型：
+
+```ts
+interface Draw {
+  draw(): void;
+}
+
+class MyScreen {
+  constructor(public components: Draw[]) {}
+
+  run() {
+    this.components.forEach((component) => {
+      component.draw();
+    });
+  }
+}
+
+const button = new Button(100, 44, "Submit");
+const input = new Input(200, 44, "");
+const screen = new MyScreen([button, input]);
+screen.run();
+```
