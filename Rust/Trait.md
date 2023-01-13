@@ -53,3 +53,13 @@ pub trait Summary {
 ```
 
 如果在实现该 Trait 的时候再次定义了该方法，则会重载该方法。
+
+## 作为函数参数
+
+```rust
+pub fn notify(item: &impl Summary) -> String {
+    format!("Breaking news {}", item.summarize())
+}
+```
+
+它的意思是 实现了Summary特征 的 item 参数。只要任何实现了 `Summary` Trait
