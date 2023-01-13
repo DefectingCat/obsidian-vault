@@ -94,3 +94,5 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 ```
 
 ## 特征对象
+
+Trait 与某些语言中的接口非常的类似，但不同的是 trait 不能作为
