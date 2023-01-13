@@ -112,3 +112,26 @@ fn returns_summarizable(switch: bool) -> impl Summary {
 ```
 
 同时，我们无法在一个列表中保存一些实现了某个 trait 对象的数据，但是他们的类型却不相同。或许枚举是一个不错的方法。
+
+```rust
+enum UIComponents {
+    Button(Button),
+    Input(Input),
+}
+fn other_draw(ui: &UIComponents) {
+    match ui {
+        UIComponents::Button(b) => b.draw(),
+        UIComponents::Input(i) => i.draw(),
+    }
+}
+
+fn main() {
+    let button = Button::new(100, 44, "Submit".to_string());
+    let input = Input::new(200, 44, "".to_string());
+
+    let my_screen = vec![UIComponents::Button(button), UIComponents::Input(input)];
+    my_screen.iter().for_each(other_draw)
+}
+```
+
+但这样的问题是，我们保存未知类型的数据。直白点说就是无法保存实现了 Draw 这个 trait 的任意类型。
