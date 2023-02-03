@@ -114,3 +114,31 @@ enum List {
     Nil,
 }
 ```
+
+以上就是函数式语言中常见的 `Cons List`，它的每个节点包含一个 `i32`  的值，还包含一个新的 `List`，因此这种嵌套可以无限进行下去，Rust 认为该类型是一个 DST 类型，并给予报错：
+
+```
+error[E0072]: recursive type `List` has infinite size
+ --> src\main.rs:3:1
+  |
+3 | enum List {
+  | ^^^^^^^^^
+4 |     Cons(i32, List),
+  |               ---- recursive without indirection
+  |
+help: insert some indirection (e.g., a `Box`, `Rc`, or `&`) to break the cycle
+  |
+4 |     Cons(i32, Box<List>),
+  |               ++++    +
+```
+
+编译器也贴心的给了我们一些解决方案，将其转换为一个指针。其中一个方法就是利用 `Box<T>`。
+
+```rust
+enum List {
+    Cons(i32, Box<List>),
+    Nil,
+}
+```
+
+只需要将 `List` 存储到堆上，然后是使用一个智能指针指向它，即可完成从 DST 到 Sized 类型的华丽转变。
