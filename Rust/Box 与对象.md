@@ -231,3 +231,17 @@ fn main() {
 ## Box::leak
 
 Box 中还提供了一个非常有用的关联函数：`Box::leak`，它可以消费掉 Box 并强制目标从内存中泄露。
+
+```rust
+fn main() {
+    let static_str = gen_static_str();
+    dbg!(&static_str.as_ptr());
+}
+
+fn gen_static_str() -> &'static str {
+    let mut str = String::from("Hello ");
+    str.push_str("world");
+    dbg!(&str.as_ptr());
+    Box::leak(str.into_boxed_str())
+}
+```
