@@ -145,4 +145,51 @@ enum List {
 
 ### 特征对象
 
-在 Rust 中，想实现不同类型组成的数组或接受实现了某种方法的不同类型的参数，只有两种办法
+在 Rust 中，想实现不同类型组成的数组或接受实现了某种方法的不同类型的参数，只有两种办法：枚举和特征对象。枚举的限制较多，因此特征对象往往是最常用的解决办法。
+
+```rust
+use ::anyhow::Result;
+
+trait Draw {
+    fn darw(&self);
+}
+
+struct Button {}
+
+impl Draw for Button {
+    fn darw(&self) {
+        println!("Button");
+    }
+}
+
+struct Input {}
+
+impl Draw for Input {
+    fn darw(&self) {
+        println!("Input");
+    }
+}
+
+fn test<T>(component: &T)
+where
+    T: Draw,
+{
+    component.darw();
+}
+fn test2(component: &dyn Draw) {
+    component.darw();
+}
+
+fn main() -> Result<()> {
+    let components: Vec<Box<dyn Draw>> = vec![Box::new(Button {}), Box::new(Input {})];
+    components.iter().for_each(|c| test2(&**c));
+
+    Ok(())
+}
+```
+
+上述代码实现在一个数组中存储实现了 `Draw` 这个 Trait 但是类型却不同的数据，就是将 `Button` 和 `Input` 包装成 `Draw` 特征的特征对象，再放入到数组中。`Box<dyn Draw>` 就是特征对象。
+
+而在函数 `test2` 中，其参数可以写成 `&Box<dyn Draw>` 也可以写成 `&dyn Draw` 这两种都是特征对象作为参数的写法。但需要注意的是，如果写成 `&dyn Draw` 的格式，则不能直接将 `&Box<T>` 传入，或者说，编译器无法完全为我们隐式解引用。需要手动为其解引用 `&**c`。
+
+其实，特征也是 DST 类型，而特征对象在做的就是将 DST 类型转换为固定大小类型。
