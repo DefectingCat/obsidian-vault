@@ -11,11 +11,13 @@ fn main() -> Result<()> {
     let str = String::from("Hello world");
     println!("{}", str);
     let str2 = str;
+    //         --- value moved here
     println!("{}", str);
+	//             ^^^ value borrowed here after move
     println!("{}", str2);
 
     Ok(())
 }
 ```
 
-在所有权的规则中，堆内存上的对象默认会转移所有权，所以 `str` 的指针引用转移给了 `str2`，
+在所有权的规则中，堆内存上的对象默认会转移所有权，`str` 的指针引用转移给了 `str2`，所以无法再访问 `str`，它已经不再和指针绑定了。
