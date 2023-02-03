@@ -85,3 +85,32 @@ fn main() -> Result<()> {
 
 而堆上则不然，底层数据并不会被拷贝，转移所有权仅仅只是赋值一份栈中的指针，再将新的指针赋予新的变量，然后让拥有旧指针的变量失效，最终完成了所有权的转移：
 
+```rust
+fn main() -> Result<()> {
+    let arr = [0; 1000];
+    let arr1 = arr;
+    println!("arr: {}", arr.len());
+    println!("arr1: {}", arr1.len());
+
+    let arr = Box::new([0; 1000]);
+    let arr1 = arr;
+    println!("arr: {}", arr.len());
+	//                  ^^^^^^^^^ value borrowed here after move
+    println!("arr1: {}", arr1.len());
+
+    Ok(())
+}
+```
+
+### 将动态大小类型变为固定大小类型
+
+Rust 需要在编译时就知道类型占用多少空间，无法在编译时知道具体大小的类型被称之为动态大小类型 DST。
+
+其中一种无法在编译时就知道大小的类型是递归类型：在类型定义时用到了自身，或者说该类型的值的一部分是相同类型的其他值，这种值的嵌套理论上可以无限的进行下午，所以 Rust 无法在编译时知道递归类型所需要的空间：
+
+```rust
+enum List {
+    Cons(i32, List),
+    Nil,
+}
+```
