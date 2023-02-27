@@ -128,3 +128,4 @@ async fn hello_dog() {
 }
 ```
 
+`join!` 宏可以并发的处理和等待多个 Future，当 `try_sleep` 被阻塞时，则 `hello_dog` 可以拿过线程的所有权继续执行。
