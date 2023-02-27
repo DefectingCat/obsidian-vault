@@ -24,11 +24,11 @@ Rust 中异步的特点：
 
 与老朋友 JavaScript 不同的时，**Future 在 Rust 中是惰性的**。在 JavaScript 中，创建一个异步的任务，无论是任务队列，还是 Promise，它都会立即执行。而且 JavaScript 自带异步运行时。
 
-* JavaScript 中的异步任务会立即（或定时）被添加到任务队列中；
+* JavaScript 中的异步任务会立即被添加到任务队列中；
 * JavaScript 自带异步运行时；
 * JavaScript 中 `async/await` 语法只是 Promise 到语法糖；
 
-在 JavaScript 中，一个异步任务会被立即添加到任务队列中的末尾（`setTimeout` 则是定时后添加到任务队列末尾）。如果不做任何处理，则该异步任务会立即脱离当前环境。
+在 JavaScript 中，一个异步任务会被立即添加到任务队列中的末尾。如果不做任何处理，则该异步任务会立即脱离当前环境。
 
 ```js
 const sleep = async (duration) => {
@@ -40,8 +40,18 @@ const sleep = async (duration) => {
 };
 
 const main = async () => {
-  console.log('hello');
-  sleep();
-  console.log('world');
+  console.log("hello");
+  sleep(1000);
+  console.log("world");
 };
+
+main();
 ```
+
+此处的 `sleep` 函数则会在之前到当前行时立即被添加到任务队列的末尾。等到 `main` 函数其他同步代码都执行完成后，才会在等待 1000ms 并结束 `main` 函数。这是 JavaScript 最基本的异步运行方式。
+
+## Future
+
+但 Rust 首当其冲不同的就是，Future 是惰性的。一个 async 函数会返回一个 `Future`，若直接调用该函数，不会发生任何事，因为 Future 还没有被执行。
+
+Future 人如其名，可以理解为它是一个定义在未来被执行的任务，若不触发它则不会执行。使用一个 Future 需要使用一个执行器。
