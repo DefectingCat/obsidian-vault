@@ -55,3 +55,44 @@ main();
 但 Rust 首当其冲不同的就是，Future 是惰性的。一个 async 函数会返回一个 `Future`，若直接调用该函数，不会发生任何事，因为 Future 还没有被执行。
 
 Future 人如其名，可以理解为它是一个定义在未来被执行的任务，若不触发它则不会执行。使用一个 Future 需要使用一个执行器。
+
+`futures` 包为我们提供了一个最简单粗暴的执行器：`block_on`。它会阻塞当前线程以等待任务完成。
+
+```rust
+use futures::executor::block_on;
+
+fn main() {
+    let future = sleep();
+
+    block_on(future);
+}
+
+async fn sleep() {
+    println!("Try to sleep.")
+}
+```
+
+### await
+
+既然一个函数被标记为了 async 函数，那肯定少不了它的搭档 await。在一个 async 函数执行另一个 async 函数的方法就是使用 await。不过与 JavaScript 或 C# 等语言不同的是，在 Rust 中使用 await 看上去更像是一个方法的调用：
+
+```rust
+use futures::executor::block_on;
+
+fn main() {
+    let future = sleep();
+
+    block_on(future);
+}
+
+async fn sleep() {
+    hello_cat().await;
+    println!("Try to sleep.")
+}
+
+async fn hello_cat() {
+    println!("Hello kitty.")
+}
+```
+
+如果移除 await 字段，则编译器会给我们 `futures do nothing unless you .await or poll them` 的提示。
