@@ -95,4 +95,36 @@ async fn hello_cat() {
 }
 ```
 
-如果移除 await 字段，则编译器会给我们 `futures do nothing unless you .await or poll them` 的提示。
+如果移除 await 字段，则编译器会给我们 `futures do nothing unless you .await or poll them` 的提示。出了 await 的方式运行 async 函数，还有个就是使用轮询。
+
+与 `block_on` 不同的时，await 不会阻塞当前的线程。而是异步的等待 Future 的完成，在等待的过程中，该线程还可以继续执行其他的任务，从而实现了并发处理的效果。
+
+```rust
+#![feature(future_join)]
+use async_std::task::sleep;
+use futures::executor::block_on;
+use std::future::join;
+use std::time::Duration;
+
+fn main() {
+    let f1 = try_sleep();
+    let f2 = hello_dog();
+
+    block_on(join!(f1, f2));
+}
+
+async fn try_sleep() {
+    hello_cat().await;
+    sleep(Duration::from_secs(3)).await;
+    println!("Try to sleep.")
+}
+
+async fn hello_cat() {
+    println!("Hello kitty.")
+}
+
+async fn hello_dog() {
+    println!("Hello puppy");
+}
+```
+
