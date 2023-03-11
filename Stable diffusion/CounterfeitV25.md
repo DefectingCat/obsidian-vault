@@ -1,4 +1,5 @@
 ## 1
+![[00063-2160763590.png]]
 
 ```
 (masterpiece, best quality)),a girl, solo, twintails, shirt, skirt, petals, bowtie, earrings, jewelry, bangs, black hair, hair ornament, hair ribbon, red ribbon, red eyes, long hair, open mouth, white shirt, multicolored hair, black skirt, red hair, long sleeves, pink bowtie, hair between eyes, looking at viewer, collared shirt, upper body, hand up, falling petals, depth of field, strong bloom, red background  
