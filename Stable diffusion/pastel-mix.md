@@ -14,7 +14,7 @@ Steps: 20, Sampler: DPM++ 2M Karras, CFG scale: 7, Seed: 1535735132, Size: 512x5
 ![[Pasted image 20230311121132.png]]
 
 ```
-masterpiece, best quality, ultra-detailed, illustration, close-up, straight on, face focus, white hair, golden eyes, long hair, halo, serene expression, looking at viewer,two girls,close togather  
+masterpiece, best quality, ultra-detailed, illustration, close-up, straight on, face focus, white hair, golden eyes, long hair, halo, serene expression, looking at viewer,two girls,close together  
 Negative prompt: lowres, ((bad anatomy)), ((bad hands)), text, missing finger, extra digits, fewer digits, blurry, ((mutated hands and fingers)), (poorly drawn face), ((mutation)), ((deformed face)), (ugly), ((bad proportions)), ((extra limbs)), extra face, (double head), (extra head), ((extra feet)), monster, logo, cropped, worst quality, low quality, normal quality, jpeg, humpbacked, long body, long neck, ((jpeg artifacts))  
 Steps: 20, Sampler: DPM++ 2M Karras, CFG scale: 7, Seed: 240742299, Size: 960x544, Model hash: d01a68ae76, Model: pastelMixStylizedAnime_pastelMixPrunedFP16
 ```
