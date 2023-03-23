@@ -1,4 +1,3 @@
-Antd-mobile 使用的是旧版本 `2.3.4` ，但其 `Carousel` 组件需要进行一些定制上的修改。组件在很多地方有使用，不方便升级版本。
 
 而 ant-mobile `Carousel` 组件用的是 `"rmc-nuka-carousel": "~3.0.0",`，所以只需要 patch `rmc-nuka-carousel` 使其在移动端竖屏的状态下交换 touch 事件的 x、y 轴即可。
 

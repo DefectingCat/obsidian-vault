@@ -2,7 +2,7 @@
 
 并发在现代社会非常重要，多数主流语言都有对自己并发模型的设计以及取舍。
 
--   **OS 线程**, 它最简单，也无需改变任何编程模型(业务/代码逻辑)，因此非常适合作为语言的原生并发模型，我们在[多线程章节](https://course.rs/advance/concurrency-with-threads/concurrency-parallelism.html)也提到过，Rust 就选择了原生支持线程级的并发编程。但是，这种模型也有缺点，例如线程间的同步将变得更加困难，线程间的上下文切换损耗较大。使用线程池在一定程度上可以提升性能，但是对于 IO 密集的场景来说，线程池还是不够。
+-   **OS 线程**, 它最简单，也无需改变任何编程模型(业务/代码逻辑)，因此非常适合作为语言的原生并发模型，在[多线程章节](https://course.rs/advance/concurrency-with-threads/concurrency-parallelism.html)也提到过，Rust 就选择了原生支持线程级的并发编程。但是，这种模型也有缺点，例如线程间的同步将变得更加困难，线程间的上下文切换损耗较大。使用线程池在一定程度上可以提升性能，但是对于 IO 密集的场景来说，线程池还是不够。
 -   **事件驱动(Event driven)**, 这个名词你可能比较陌生，如果说事件驱动常常跟回调( Callback )一起使用，相信大家就恍然大悟了。这种模型性能相当的好，但最大的问题就是存在回调地狱的风险：非线性的控制流和结果处理导致了数据流向和错误传播变得难以掌控，还会导致代码可维护性和可读性的大幅降低，大名鼎鼎的 `JavaScript` 曾经就存在回调地狱。
 -   **协程(Coroutines)** 可能是目前最火的并发模型，`Go` 语言的协程设计就非常优秀，这也是 `Go` 语言能够迅速火遍全球的杀手锏之一。协程跟线程类似，无需改变编程模型，同时，它也跟 `async` 类似，可以支持大量的任务并发运行。但协程抽象层次过高，导致用户无法接触到底层的细节，这对于系统编程语言和自定义异步运行时是难以接受的
 -   **actor 模型**是 erlang 的杀手锏之一，它将所有并发计算分割成一个一个单元，这些单元被称为 `actor` , 单元之间通过消息传递的方式进行通信和数据传递，跟分布式系统的设计理念非常相像。由于 `actor` 模型跟现实很贴近，因此它相对来说更容易实现，但是一旦遇到流控制、失败重试等场景时，就会变得不太好用
@@ -129,3 +129,75 @@ async fn hello_dog() {
 ```
 
 `join!` 宏可以并发的处理和等待多个 Future，当 `try_sleep` 被阻塞时，则 `hello_dog` 可以拿过线程的所有权继续执行。通过这种方式实现了**使用同步的代码顺序实现了异步的执行效果**。
+
+## Future 特征
+
+与 JavaScript 将异步任务放到任务队列尾端不同的时，Rust 的 Future 特征恰恰是异步函数的返回值和被执行的关键。
+
+```rust
+trait SimpleFuture {
+    type Output;
+    fn poll(&mut self, wake: fn()) -> Poll<Self::Output>;
+}
+
+#[derive(Debug)]
+enum Poll<T> {
+    Ready(T),
+    Pending,
+}
+```
+
+这里模拟真正的 Future 实现一个简易版的 `SimpleFuture`。一个 Future 需要被执行器 `poll` 轮询后才能执行，通过调用该方法，可以推进 Future 的进一步执行，直到被阻塞将运行权转移给其他 Future。
+
+若在当前 `poll` 中，Future 可以被完成，则会返回 `Poll::Ready(result)`，反之则返回 `Poll::Pending`。并安排一个 `wake` 函数，当未来 Future 准备好被切回来继续执行时，该函数就会被调用。然后继续刚开始的步骤，该 Future 的执行器会再次调用 `poll` 方法，此时 Future 就可以继续执行了。
+
+再来模拟一个简单的 Socket，并从一个 socket 中异步读取数据。当该 socket 中有数据时，就直接读取数据并返回 `Poll::Ready(data)`；如果数据还没准备好，Future 会被阻塞且不再继续执行，并注册一个 `wake` 函数，当 socket 数据准备好的时候，该函数将被调用以通知执行器继续执行。
+
+```rust
+use std::{thread::sleep, time::Duration};
+
+pub struct Socket {
+    pub test: u8,
+}
+
+impl Socket {
+    pub fn has_data_to_read(&self) -> bool {
+        return false;
+    }
+
+    pub fn read_buf(&self) -> Vec<u8> {
+        return vec![];
+    }
+
+    pub fn set_readable_callback(&self, wake: fn()) {
+        sleep(Duration::from_secs(3));
+        wake();
+    }
+}
+```
+
+```rust
+pub struct SocketRead<'a> {
+    socket: &'a Socket,
+}
+
+impl SimpleFuture for SocketRead<'_> {
+    type Output = Vec<u8>;
+
+    fn poll(&mut self, wake: fn()) -> Poll<Self::Output> {
+        if self.socket.has_data_to_read() {
+            // socket 有数据，写入 buffer 并返回
+            Poll::Ready(self.socket.read_buf())
+        } else {
+            // socket 中还没数据
+            //
+            // 注册一个 `wake` 函数，当数据可用时，该函数会被调用，
+            // 然后当前 Future 的执行器会再次调用 `poll` 方法，此时就可以读取到数据。
+            self.socket.set_readable_callback(wake);
+            Poll::Pending
+        }
+    }
+}
+```
+
+## 构建自己的执行器
