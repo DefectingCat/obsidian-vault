@@ -24,6 +24,18 @@ Rust 中异步的特点：
 
 一个普通函数会在调用时会立即执行，而一个异步函数的行为并非如此。
 
+```rust
+fn main() {
+    normal_fool();  // print right now.
+}
+
+fn normal_fool() {
+    println!("normal_fool");
+}
+```
+
+异步函数的情况
+
 ## 与 JavaScript 相比
 
 与老朋友 JavaScript 不同的时，**Future 在 Rust 中是惰性的**。在 JavaScript 中，创建一个异步的任务，无论是任务队列，还是 Promise，它都会立即执行。而且 JavaScript 自带异步运行时。
