@@ -34,7 +34,29 @@ fn normal_fool() {
 }
 ```
 
-异步函数的情况
+异步函数的情况：
+
+```rust
+#![allow(dead_code, unused_variables)]
+
+fn main() {
+    normal_fool();
+
+    let foo1 = foo1(); // -> impl Future<Output = ()>
+}
+
+fn normal_fool() {
+    println!("normal_fool");
+}
+
+async fn foo1() {
+    println!("foo1");
+}
+```
+
+异步函数 `foo1()` 并不会理解执行，而是返回一个 `Future`。将一个函数标记为 `async fn` 时也表明改函数会被转换成一个返回一个实现了 `Future` 的值。
+
+
 
 ## 与 JavaScript 相比
 
