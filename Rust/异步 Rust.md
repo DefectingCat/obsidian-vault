@@ -56,7 +56,19 @@ async fn foo1() {
 
 异步函数 `foo1()` 并不会理解执行，而是返回一个 `Future`。将一个函数标记为 `async fn` 时也表明改函数会被转换成一个返回一个实现了 `Future` 的值。
 
+也就是说 `foo1()` 与 `foo2()` 是相同的：
 
+```rust
+async fn foo1() {
+    println!("foo1");
+}
+
+fn foo2() -> impl Future<Output = ()> {
+    async {
+        println!("foo1");
+    }
+}
+```
 
 ## 与 JavaScript 相比
 
