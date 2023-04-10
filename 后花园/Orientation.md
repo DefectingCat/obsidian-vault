@@ -1,0 +1,1 @@
+在 `window` 上有个 `screen` 属性值，它包含了当前屏幕的 orientation 信息，
