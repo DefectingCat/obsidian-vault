@@ -293,6 +293,9 @@ struct SharedState {
 
 我们的 Future 非常简单，结构体中只保存了一个用于共享的状态。其中状态中包含一个 `waker`，当线程睡眠结束后可以使用它来通知我们的 TimeFuture 来唤醒任务再次执行。
 
+> 为什么需要 `started` 状态？
+> 这里是为了模拟真正的 Future 的惰性，避免结构
+
 当然到这里 TimeFuture 还不是一个真正的 Future，它还需要实现 Future 这个 trait。
 
 ```rust
