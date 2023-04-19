@@ -252,4 +252,81 @@ impl SimpleFuture for SocketRead<'_> {
 }
 ```
 
-## 构建自己的执行器
+## 构建自己的异步运行时
+
+Future 的实现略微复杂，不是一个 SimpleFuture 就能够解决的。要想完全了解 Rust 异步在背后是如何运行的，就需要手动来构建一个简化版的 Future。
+
+### 使用 Waker 来唤醒任务
+
+Future 的 `poll` 方法决定了异步的特性，对于 Future 来说，第一次执行 `poll` 方法无法执行完成是正常的。当其阻塞时，需要将执行的优先权让给其他 Future。并且需要确保在未来一旦准备好时，可以继续执行 `poll` 方法。而通知可以继续执行 `poll` 方法就是通过 Waker 来完成的。
+
+Waker 提供了一个 `wake` 方法用于告诉执行器（后续创建），相关的任务可以继续执行了，此时执行器就可以对对应的 Future 再次执行 `poll` 方法。
+
+### 构建定时器
+
+构建定时器之前我们需要一个 Future，因此需要使用到标准库中的 `future`。
+
+但实现一个真正的异步运行时非常复杂的，不仅仅是 Future 本身，还有其他 API 的异步操作。所以这里使用标准库中的 Future 来创建一个简单的定时 Future：TimeFuture。它的特点就是在第一次 `poll` 时会创建一个定时器来模拟需要被等待的任务，当定时器结束后，使用 Waker 通知 Executor 来再次执行 `poll`。
+
+非常的简单易懂，通过这个简单的 Future 就能够大致的了解了 Future 是如何执行与调度任务了。
+
+```rust
+pub struct TimerFuture {
+    shared_state: Arc<Mutex<SharedState>>,
+}
+
+/// 在 Future 和等待的线程间共享状态
+struct SharedState {
+    /// 是否已经开始过第一次 `poll`
+    started: bool,
+
+    /// 定时（睡眠）是否结束
+    completed: bool,
+
+    /// 定时时长
+    duration: Duration,
+
+    /// 当睡眠结束后，线程可以用 `waker` 通知 `TimerFuture` 来唤醒任务
+    waker: Option<Waker>,
+}
+```
+
+我们的 Future 非常简单，结构体中只保存了一个用于共享的状态。其中状态中包含一个 `waker`，当线程睡眠结束后可以使用它来通知我们的 TimeFuture 来唤醒任务再次执行。
+
+当然到这里 TimeFuture 还不是一个真正的 Future，它还需要实现 Future 这个 trait。
+
+```rust
+impl Future for TimerFuture {
+    type Output = ();
+    fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
+        // 通过检查共享状态，来确定定时器是否已经完成
+        let mut shared_state = self.shared_state.lock().unwrap();
+        if !shared_state.started {
+            let thread_shared_state = self.shared_state.clone();
+            thread::spawn(move || {
+                let mut shared_state = thread_shared_state.lock().unwrap();
+                println!("start first execute");
+                shared_state.started = true;
+                thread::sleep(shared_state.duration);
+                // 通知执行器定时器已经完成，可以继续`poll`对应的`Future`了
+                shared_state.completed = true;
+                if let Some(waker) = shared_state.waker.take() {
+                    waker.wake()
+                }
+            });
+        }
+        if shared_state.completed {
+            Poll::Ready(())
+        } else {
+            // 设置 `wkaer`，这样新线程在睡眠结束后可以唤醒当前的任务，接着再次对 `Furture` 进行
+            // `poll` 操作
+            //
+            // 下面的`clone`每次被`poll`时都会发生一次，实际上，应该是只`clone`一次更加合理。
+            // 选择每次都`clone`的原因是： `TimerFuture`可以在执行器的不同任务间移动，如果只克隆一次，
+            // 那么获取到的`waker`可能已经被篡改并指向了其它任务，最终导致执行器运行了错误的任务
+            shared_state.waker = Some(cx.waker().clone());
+            Poll::Pending
+        }
+    }
+}
+```
