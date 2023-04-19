@@ -226,7 +226,7 @@ impl Socket {
 }
 ```
 
-`Future` 本身是一个 trait，除了 async 函数会自动实现这个 trait，我们还可以手动为结构体去实现它。
+`Future` 本身是一个 trait，除了 async 函数会自动实现这个 trait，我们还可以手动为结构体去实现它。其中 `poll` 方法就是执行异步函数的主要部分，它配合惰性的特性，在执行器的驱动下实现了异步的主要功能：待会再执行。
 
 ```rust
 pub struct SocketRead<'a> {
