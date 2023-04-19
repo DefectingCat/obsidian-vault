@@ -336,3 +336,30 @@ impl Future for TimerFuture {
     }
 }
 ```
+
+而该结构体的创建则非常简单，创建一个可线程间共享的状态即可。重点的 `waker` 现在还是 `None`，是因为它会在第一次 `poll` 时由 Executor 来创建并当作 context 来传递给 `poll` 方法。也就是 `cx: &mut Context<'_>`。至于为什么签名是 `Context` 会在后面的构建 Executor 中看到。
+
+```rust
+impl TimerFuture {
+    /// 创建一个新的`TimerFuture`，在指定的时间结束后，该`Future`可以完成
+    pub fn new(duration: Duration) -> Self {
+        let shared_state = Arc::new(Mutex::new(SharedState {
+            started: false,
+            completed: false,
+            duration,
+            waker: None,
+        }));
+
+        TimerFuture { shared_state }
+    }
+}
+```
+
+### 执行器 Executor
+
+Rust 的 Future 是惰性的，默认情况下不会去主动的执行。在 `async` 函数中使用 `.await` 能调用另一个 `async` 函数。`.await` 总是需要 `async` 的存在，那最外层的 Future 该怎么才能执行呢？没错，就是执行器 Executor。
+
+执行器会管理一批 `Future` (最外层的 `async` 函数)，然后通过不停地 `poll` 推动它们直到完成。最开始它会主动调用一次 `poll` 方法，并传递响应的 `Context`，后续就不会再主动的执行 `poll` 方法了，而是等待 Future 的 wake 函数通知它继续执行。这种 **wake 通知然后 poll** 的方式会不断重复，直到 `Future` 完成。
+
+### 构建执行器
+
