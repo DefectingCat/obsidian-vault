@@ -226,6 +226,8 @@ impl Socket {
 }
 ```
 
+`Future` 本身是一个 trait，除了 async 函数会自动实现这个 trait，我们还可以手动为结构体去实现它。
+
 ```rust
 pub struct SocketRead<'a> {
     socket: &'a Socket,
