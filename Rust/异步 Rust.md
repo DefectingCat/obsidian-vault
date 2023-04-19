@@ -295,8 +295,11 @@ struct SharedState {
 
 > 为什么需要 `started` 状态？
 > 这里是为了模拟真正的 Future 的惰性，将实际的工作代码放在 `poll` 方法内，只有在第一次被 `poll` 时（也就是 `.await` 时）才会真正的执行。
+> 后续则根据 `completed` 来决定返回的 Poll 状态。
 
-当然到这里 TimeFuture 还不是一个真正的 Future，它还需要实现 Future 这个 trait。
+当然到这里 TimeFuture 还不是一个真正的 Future，它还需要实现 Future 这个 trait。这里的 `poll` 方法非常简单，根据共享状态，如果该方法是第一次执行，则创建一个新的线程来执行真正的任务。然后继续向下执行，判断状态中 `completed` 是否完成，如果未完成则返回 `Poll::Pending` 表示该异步任务放到后面还要执行。如果完成则返回 `Poll::Ready(())` 表示该任务已经执行完成。
+
+而刚刚创建用来执行真正任务的线程，则会休眠指定的时间。当休眠结束后，其线程会继续执行它的代码，也就是标记 `completed` 为完成，同时调用共享状态中的 `waker.wake()` 方法来通知执行器可以继续 `poll` 了。
 
 ```rust
 impl Future for TimerFuture {
