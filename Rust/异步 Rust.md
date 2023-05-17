@@ -492,7 +492,7 @@ if let Some(waker) = shared_state.waker.take() {
 }
 ```
 
-最后一句即是执行 Future 的
+最后一句即是执行 Future 的 `poll` 方法，并传递 waker。同时根据其返回值判断是否时 `pending` 状态。
 
 ```rust
 if future.as_mut().poll(context).is_pending() {
