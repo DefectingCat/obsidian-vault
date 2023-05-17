@@ -393,7 +393,7 @@ pub struct Spawner {
 }
 ```
 
-接下来则是最重要的部分 Task
+接下来则是最重要的部分 Task，根据上述 `Executor` 和 `Spawner` 的字段签名就能看出来，他们发送和接受的分别就是 Task 结构体。Task 结构体中有两个重要的部分，分别是 `future` 本身和与 `Spawner` 一样的 `task_sender` 用于将 Future 放回通道中，等待执行器 poll。
 
 ```rust
 /// 一个Future，它可以调度自己(将自己放入任务通道中)，然后等待执行器去`poll`
@@ -409,5 +409,94 @@ pub struct Task {
 
     /// 可以将该任务自身放回到任务通道中，等待执行器的poll
     pub task_sender: SyncSender<Arc<Task>>,
+}
+```
+
+其中 `pub future: Mutex<Option<BoxFuture<'static, ()>>>` 的这个签名才是重要所在。首先第一个 Mutex 的作用主要是告诉编译器我们的 future 是线程安全的，虽然我们只有一个线程来执行任务，但编译器无从得知。
+
+其次就是 `BoxFuture<'a, T>`，这是个类型别名：
+
+```rust
+type BoxFuture<'a, T> = Pin<Box<dyn Future<Output = T> + Send + 'static>>;
+```
+
+由于 Future 的特性，需要使用 `Pin<T>` 来保证其在内存中固定的位置，不会移动。后续的特征对象表示我们的 Future 可以在线程中安全的移动。
+
+到此我们的 Task 才完成了一半，还需要将其实现 ArcWake 特征才能在执行器中将其变成 `wake`，用于后续通知执行器继续 `poll` 。
+
+不过在此之前，我们先来实现一下 `Spawner` 的 `spawn` 方法，它负责创建新的 Future，并将其放到任务通道中。
+
+```rust
+/// `Spawner`负责创建新的`Future`然后将它发送到任务通道中
+impl Spawner {
+    pub fn spawn(&self, future: impl Future<Output = ()> + 'static + Send) {
+        let future = Box::pin(future);
+        let task = Arc::new(Task {
+            future: Mutex::new(Some(future)),
+            task_sender: self.task_sender.clone(),
+        });
+        self.task_sender.send(task).expect("任务队列已满");
+    }
+}
+```
+
+在创建新的 Task 时，我们将 `Spawner` 自身的 `task_sender` 保存给了 Task，其作用就是用于将 Task 自身发送到任务通道中。在 `spawn` 执行时我们将直接 Task 发送到执行器。
+
+随后就是给 Task 实现 ArcWake 了，我们只需要实现一个方法 `wake_by_ref`，它就是 `wake` 的核心所在。当调用 `wake` 时，它将 clone 自身的 Arc 并发送到任务通道。
+
+```rust
+impl ArcWake for Task {
+    fn wake_by_ref(arc_self: &Arc<Self>) {
+        let cloned = arc_self.clone();
+        arc_self.task_sender.send(cloned).expect("任务队列已满");
+    }
+}
+```
+
+`Spawner` 和 `Task` 主要是将 Future 发送到任务通道中，而我们最后一个实现的方法就是接受并执行通过任务通道发送过来的任务。在上述 `Spawner` 第一次 `spawn` 的时候，就会立即发送到任务通道。这就是 Future 的第一次执行，也就是执行器的主动 `poll`，后续则根据传递过去的 `wake` 方法来通知（发送 Task 到任务通道）执行器继续 `poll` 。
+
+```rust
+impl Executor {
+    pub fn run(&self) {
+        while let Ok(task) = self.ready_queue.recv() {
+            // 获取一个future，若它还没有完成(仍然是Some，不是None)，则对它进行一次poll并尝试完成它
+            let mut future_slot = task.future.lock().unwrap();
+            if let Some(mut future) = future_slot.take() {
+                // 基于任务自身创建一个 `LocalWaker`
+                let waker = waker_ref(&task);
+                let context = &mut Context::from_waker(&waker);
+                // `BoxFuture<T>`是`Pin<Box<dyn Future<Output = T> + Send + 'static>>`的类型别名
+                // 通过调用`as_mut`方法，可以将上面的类型转换成`Pin<&mut dyn Future + Send + 'static>`
+                if future.as_mut().poll(context).is_pending() {
+                    // Future还没执行完，因此将它放回任务中，等待下次被poll
+                    *future_slot = Some(future)
+                }
+            }
+        }
+    }
+}
+```
+
+所以我们为 `Executor` 实现的 `run` 方法就是循环任务通道，当接受到任务时，首先将取出 `Option` 中的 Task。并基于任务自身创建一个 waker，这就是上述为 Task 实现 ArcWake 的作用：
+
+```rust
+let waker = waker_ref(&task);
+let context = &mut Context::from_waker(&waker);
+```
+
+通过这两个方法，就能将任务自身创建成一个在 Future 中传递的上下文，也就是 `fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>)` 中的 `cx`，用于通知执行器可以再次 `poll` 了。
+
+```rust
+if let Some(waker) = shared_state.waker.take() {
+    waker.wake()
+}
+```
+
+最后一句即是执行 Future 的
+
+```rust
+if future.as_mut().poll(context).is_pending() {
+    // Future还没执行完，因此将它放回任务中，等待下次被poll
+    *future_slot = Some(future)
 }
 ```
