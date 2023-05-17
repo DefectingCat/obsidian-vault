@@ -492,11 +492,43 @@ if let Some(waker) = shared_state.waker.take() {
 }
 ```
 
-最后一句即是执行 Future 的 `poll` 方法，并传递 waker。同时根据其返回值判断是否时 `pending` 状态。
+最后一句即是执行 Future 的 `poll` 方法，并传递 waker。同时根据其返回值判断是否时 `pending` 状态。如果是，则将 Future 在放回起初的 `Option` 中，等待其调用 `wake` 方法。
 
 ```rust
 if future.as_mut().poll(context).is_pending() {
     // Future还没执行完，因此将它放回任务中，等待下次被poll
     *future_slot = Some(future)
 }
+```
+
+到此，属于我们自己的迷你 Executor 就创建完成了。可以通过 Spawner 创建一个真正的 Future 测试了：
+
+```rust
+#[cfg(test)]
+mod tests {
+    use std::time::Duration;
+
+    use crate::{executor::new_executor_and_spawner, waker::TimerFuture};
+
+    #[test]
+    fn it_works() {
+        let (exec, spawner) = new_executor_and_spawner();
+
+        spawner.spawn(async {
+            println!("howdy!");
+            TimerFuture::new(Duration::new(2, 0)).await;
+            println!("done!")
+        });
+
+        drop(spawner);
+
+        exec.run();
+    }
+}
+```
+
+要在 test 中输出到 std，则需要使用：
+
+```bash
+cargo test -- --nocapture
 ```
