@@ -504,6 +504,16 @@ if future.as_mut().poll(context).is_pending() {
 到此，属于我们自己的迷你 Executor 就创建完成了。可以通过 Spawner 创建一个真正的 Future 测试了：
 
 ```rust
+pub fn new_executor_and_spawner() -> (Executor, Spawner) {
+    // 任务通道允许的最大缓冲数(任务队列的最大长度)
+    // 当前的实现仅仅是为了简单，在实际的执行中，并不会这么使用
+    const MAX_QUEUED_TAKSS: usize = 10_000;
+    let (task_sender, ready_queue) = sync_channel(MAX_QUEUED_TAKSS);
+    (Executor { ready_queue }, Spawner { task_sender })
+}
+```
+
+```rust
 #[cfg(test)]
 mod tests {
     use std::time::Duration;
