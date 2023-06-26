@@ -1,3 +1,0 @@
-对于核心组件 v2ray 如果将其在 release 中一起打包发布会导致整体体积变大。所以最后采用的方法是通过 Github API 下载指定版本的 v2ray。
-
-使用的 http 客户端为 reqwest。
