@@ -8,7 +8,6 @@
 	- [x] 主题切换
 - [ ] updater 检查更新
 - [ ] 添加设置分页
-- [ ] 使用 axum 反代
 - [ ] 自动更新订阅
 - [ ] 右键菜单
 - [ ] 记住窗口大小
@@ -17,3 +16,9 @@
 	- [ ] 编辑
 	- [ ] 删除
 	- [ ] 更新
+- [ ] UI
+	- [ ] custom head bar
+
+- [ ] 使用 axum 反代
+- [ ] 使用 tauri 的 nativer
+- [ ] 构建 show-client desktop
