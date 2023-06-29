@@ -18,12 +18,16 @@
 	- [ ] 更新
 - [ ] UI
 	- [ ] custom head bar
+	- [ ] 节点编辑
+	- [ ] 测速
 - [ ] Core
 	- [ ] Linux 透明代理
 - [ ] Web
 	- [ ] A web version use auxm as backend
 - [ ] Version
 	- [ ] 添加版本更新时覆盖 core 配置文件
+- [ ] Page
+	- [ ] Logging
 
 - [ ] 使用 axum 反代
 - [ ] 使用 tauri 的 nativer
