@@ -20,6 +20,7 @@
 	- [ ] custom head bar
 	- [ ] 节点编辑
 	- [ ] 测速
+	- [ ] 支持更多节点类型
 - [ ] Core
 	- [ ] Linux 透明代理
 - [ ] Web
