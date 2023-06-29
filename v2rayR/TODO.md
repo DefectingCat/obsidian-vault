@@ -18,6 +18,10 @@
 	- [ ] 更新
 - [ ] UI
 	- [ ] custom head bar
+- [ ] Core
+	- [ ] Linux 透明代理
+- [ ] Web
+	- [ ] A web version use auxm as backend
 
 - [ ] 使用 axum 反代
 - [ ] 使用 tauri 的 nativer
