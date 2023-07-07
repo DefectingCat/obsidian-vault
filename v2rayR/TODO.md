@@ -8,7 +8,7 @@
 	- [x] 主题切换
 - [ ] updater 检查更新
 - [ ] 自动更新订阅
-- [ ] 单实例 plugin
+- [x] 单实例 plugin
 - [ ] 启动时检查 v2ray-core 进程
 - [x] 订阅
 	- [x] 分享
@@ -31,8 +31,8 @@
 	- [ ] A web version use auxm as backend
 - [ ] Version
 	- [ ] 添加版本更新时覆盖 core 配置文件
-- [ ] Page
-	- [ ] Logging
+- [x] Page
+	- [x] Logging
 
 - [ ] 使用 axum 反代
 - [ ] 使用 tauri 的 nativer
