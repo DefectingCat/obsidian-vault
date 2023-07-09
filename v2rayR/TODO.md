@@ -33,7 +33,9 @@
 - [ ] Version
 	- [ ] 添加版本更新时覆盖 core 配置文件
 - [x] Page
-	- [x] Logging
+	- [x] Logginga
+	- [ ] config editor
+	- [ ] global loading state
 
 - [ ] 使用 axum 反代
 - [ ] 使用 tauri 的 nativer
