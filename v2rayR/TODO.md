@@ -2,7 +2,7 @@
 	- [x] 配置文件
 	- [x] 启动 core
 	- [x] 解析订阅链接
-	- [ ] stream setting
+	- [x] stream setting
 - [ ] UI 界面
 	- [ ] 多语言
 	- [x] 记住窗口大小
