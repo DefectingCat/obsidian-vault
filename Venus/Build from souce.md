@@ -4,6 +4,12 @@ need:
 
 - javascriptcoregtk-4.0
 
+### download core
+
+```bash
+node scripts/download-core.mjs 
 ```
-pacman -S webkit2gtk
+
+```bash
+pacman -S webkit2gtk unzip
 ```
