@@ -17,7 +17,7 @@
 	- [x] 删除
 	- [x] 更新
 - [ ] UI
-	- [ ] custom head bar
+	- [x] custom head bar
 	- [x] 添加设置分页
 	- [ ] 右键菜单
 	- [ ] 节点编辑
