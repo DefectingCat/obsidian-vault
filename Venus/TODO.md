@@ -38,6 +38,7 @@
 	- [ ] global loading state
 - [x] 添加节点崩溃的问题
 - [ ] Delete core outbound node when delete subscription
+- [ ] 添加隐藏窗口时保存窗口位置
 
 - [ ] 使用 axum 反代
 - [ ] 使用 tauri 的 nativer
