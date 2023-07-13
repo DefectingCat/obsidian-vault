@@ -19,7 +19,7 @@
 - [ ] UI
 	- [x] custom head bar
 	- [x] 添加设置分页
-	- [ ] 右键菜单
+	- [x] 右键菜单
 	- [ ] 节点编辑
 	- [ ] 测速
 	- [ ] 记住窗口大小 plugin
@@ -36,7 +36,8 @@
 	- [x] Logginga
 	- [ ] config editor
 	- [ ] global loading state
-- [ ] 添加节点崩溃的问题
+- [x] 添加节点崩溃的问题
+- [ ] Delete core outbound node when delete subscription
 
 - [ ] 使用 axum 反代
 - [ ] 使用 tauri 的 nativer
