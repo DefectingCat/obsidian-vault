@@ -24,6 +24,7 @@
 	- [ ] 测速
 	- [x] 记住窗口大小 plugin
 	- [ ] 支持更多节点类型
+	- [x] 支持更多订阅类型
 	- [x] 日志
 	- [x] 日志按钮
 - [ ] Core
@@ -35,9 +36,13 @@
 - [x] Page
 	- [x] Logginga
 	- [ ] config editor
-	- [ ] global loading state
+	- [x] global loading state
 - [x] 添加节点崩溃的问题
-- [ ] Delete core outbound node when delete subscription
+- [x] Delete core outbound node when delete subscription
+- [ ] Set system proxy
+	- [ ] Windows
+	- [ ] MacOS
+	- [ ] Linux
 
 - [ ] 使用 axum 反代
 - [ ] 使用 tauri 的 nativer
