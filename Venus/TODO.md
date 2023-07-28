@@ -1,3 +1,5 @@
+- [ ] Refactor message channel handler
+- [ ] Mutex DerefMut
 - [ ] v2ray-core
 	- [x] 配置文件
 	- [x] 启动 core
