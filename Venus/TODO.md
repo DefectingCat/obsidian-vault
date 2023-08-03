@@ -1,5 +1,5 @@
 - [ ] Refactor message channel handler
-- [ ] Mutex DerefMut
+- [x] Mutex DerefMut
 - [ ] v2ray-core
 	- [x] 配置文件
 	- [x] 启动 core
@@ -24,7 +24,7 @@
 	- [x] 右键菜单
 	- [ ] 节点编辑
 	- [ ] 节点 ping
-	- [ ] 节点测速
+	- [x] 节点测速
 	- [x] 记住窗口大小 plugin
 	- [ ] 支持更多节点类型
 	- [x] 支持更多订阅类型
