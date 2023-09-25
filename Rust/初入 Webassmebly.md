@@ -75,7 +75,7 @@ console_error_panic_hook = { version = "0.1.7", optional = true }
 
 就和编写 Rust 库类似，其中 `lib.rs` 就是该库的主要入口，WASM 中的一些主要方法也就会放在这里定义。
 
-```rs
+```rust
 pub mod encryption;
 pub mod error;
 pub mod http;
