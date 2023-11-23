@@ -33,3 +33,10 @@ MBR for BIOS 的常见分区
 |/dev/sda2|N/A. Swap is not mounted to the filesystem like a device file.|swap|0657fd6d-a4ab-43c4-84e5-0933c84b4f4f|Swap partition details.|
 |/dev/sda3|/|xfs|4f68bce3-e8cd-4db1-96e7-fbcaf984b709|Root partition details.|
 
+## 安装前的其他准备
+
+在分区完成，并挂载到 `/mnt/gentoo` 后，可以先做点准备工作。例如启动 `ssh` 实例，方便后续的一些复制粘贴操作。
+
+```bash
+rc-service start sshd
+```
