@@ -48,3 +48,11 @@ rc-service start sshd
 ```
 ninja: error: manifest 'build.ninja' still dirty after 100 tries
 ```
+
+## Kernel
+
+Gentoo 为我们提供了三种内核的选择：
+
+- Distribution Kernels：与其他多数发行版类似，Distribution Kernel 是已经配置过的，直接编译即可。除此之外还能够选择已经编译好的 `sys-kernel/gentoo-kernel-bin`。
+- Genkernel：Gentoo 提供的一种配置内核的方式，能够提供比完全手动配置更方便的选择。
+- Manual configuration：完全的手动配置。
