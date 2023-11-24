@@ -40,3 +40,11 @@ MBR for BIOS 的常见分区
 ```bash
 rc-service start sshd
 ```
+
+### 时间
+
+安装时的系统时间非常重要，C 的某些编译环节会需要正确的系统时间。如果在安装时没有设置好时间，则会导致进入系统后某些文件的创建时间不正确，可能会遇到例如：
+
+```
+ninja: error: manifest 'build.ninja' still dirty after 100 tries
+```
