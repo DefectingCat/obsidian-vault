@@ -59,3 +59,25 @@ Gentoo 为我们提供了三种内核的选择：
 
 ### Manual configuration
 
+## 为其他机器编译
+
+参考这个帖子：[Compiling kernel from another pc can I use it to my pc?](https://forums.gentoo.org/viewtopic-t-1056998-start-0.html#top)。在为其他硬件编译内核只需要选择好目标所需要的驱动，并且别一不小心安装到当前机器上就行了。
+
+配置完后，编译的步骤还是和以前一样：
+
+```bash
+sudo make -j16 -l16
+```
+
+不同的是，`modules_install` 可以通过指定环境变量来将所有的 modules 安装到指定位置，方便待会拷贝到指定的机器上。
+
+```bash
+sudo make modules_install INSTALL_MOD_PATH=/home/xfy/gentoo-mini
+```
+
+同理，整个内核也是可以通过环境变量来指定安装的位置。
+
+```bash
+sudo make install INSTALL_PATH=/home/xfy/gentoo-mini/
+```
+
