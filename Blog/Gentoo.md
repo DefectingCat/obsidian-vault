@@ -81,3 +81,26 @@ sudo make modules_install INSTALL_MOD_PATH=/home/xfy/gentoo-mini
 sudo make install INSTALL_PATH=/home/xfy/gentoo-mini/
 ```
 
+之后整个目录看起来就应该类似于
+
+```
+.
+|-- lib
+|-- config-6.1.57-gentoo-gentoo-xfy
+|-- System.map-6.1.57-gentoo-gentoo-xfy
+`-- vmlinuz-6.1.57-gentoo-gentoo-xfy
+```
+
+拷贝到目标机器之后，只需要删除旧的 modules（留着也可以），并将内核复制到 `/boot`。再更新下启动配置即可。
+
+```bash
+sudo rm -rf /lib/modules/gentoo.x.x
+sudo cp -aR lib/modules/6.1.57-gentoo-gentoo-xfy/ /lib/modules/
+sudo cp config-6.1.57-gentoo-gentoo-xfy /boot/
+sudo cp System.map-6.1.57-gentoo-gentoo-xfy /boot/
+sudo cp vmlinuz-6.1.57-gentoo-gentoo-xfy /boot/
+```
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
