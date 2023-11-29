@@ -66,6 +66,13 @@ Gentoo 为我们提供了三种内核的选择：
 > Wayland is a replacement for the X11 window system protocol and architecture with the aim to be easier to develop, extend, and maintain.
 
 不同于 Sway 的目标是代替在 X11 上的 i3，Hyprland 则完全是全新的体验。得益于 GPU 的渲染，使得其能够拥有流畅的动画。
+
+### OpenRC
+
+- dbus
+- seatd
+- hyrpland
+
 ## 为其他机器编译内核
 
 参考这个帖子：[Compiling kernel from another pc can I use it to my pc?](https://forums.gentoo.org/viewtopic-t-1056998-start-0.html#top)。在为其他硬件编译内核只需要选择好目标所需要的驱动，并且别一不小心安装到当前机器上就行了。
