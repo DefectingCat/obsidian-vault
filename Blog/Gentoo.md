@@ -108,7 +108,6 @@ sudo make install INSTALL_PATH=/home/xfy/gentoo-mini/
 拷贝到目标机器之后，只需要删除旧的 modules（留着也可以），并将内核复制到 `/boot`。再更新下启动配置即可。
 
 ```bash
-sudo rm -rf /lib/modules/gentoo.x.x
 sudo cp -aR lib/modules/6.1.57-gentoo-gentoo-xfy/ /lib/modules/
 sudo cp config-6.1.57-gentoo-gentoo-xfy /boot/
 sudo cp System.map-6.1.57-gentoo-gentoo-xfy /boot/
