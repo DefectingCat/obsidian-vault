@@ -69,9 +69,14 @@ Gentoo 为我们提供了三种内核的选择：
 
 ### OpenRC
 
+对于在 OpenRC 上运行，必不可少的：
+
 - dbus
 - seatd
 - hyrpland
+- waybar
+
+如果没有使用 `systemd` 可以
 
 ## 为其他机器编译内核
 
