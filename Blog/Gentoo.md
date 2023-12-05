@@ -136,3 +136,10 @@ sudo emerge -av --autounmask=y --autounmask-write
 ```bash
 sudo emerge -avuDN @world
 ```
+
+### Deselect and clean dep
+
+```bash
+sudo emerge -av -W app-editors/nano
+sudo emerge -av --depclean app-editors/nano
+```
