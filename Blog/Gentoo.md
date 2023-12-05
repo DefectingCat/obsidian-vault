@@ -122,3 +122,17 @@ sudo cp vmlinuz-6.1.57-gentoo-gentoo-xfy /boot/
 ```bash
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
+
+## 一些 emerge 的缩写
+
+### Auto mask
+
+```bash
+sudo emerge -av --autounmask=y --autounmask-write
+```
+
+### Update world
+
+```bash
+sudo emerge -avuDN @world
+```
