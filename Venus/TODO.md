@@ -1,4 +1,4 @@
-- [ ] Refactor message channel handler
+- [x] Refactor message channel handler
 - [x] Mutex DerefMut
 - [ ] v2ray-core
 	- [x] 配置文件
@@ -42,6 +42,8 @@
 	- [x] global loading state
 - [x] 添加节点崩溃的问题
 - [x] Delete core outbound node when delete subscription
+- [ ] 路由
+- [ ] 重构核心
 - [ ] Set system proxy
 	- [ ] Windows
 	- [ ] MacOS
