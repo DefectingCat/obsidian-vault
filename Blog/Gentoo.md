@@ -76,7 +76,7 @@ Gentoo 为我们提供了三种内核的选择：
 - hyrpland
 - waybar
 
-如果没有使用 `systemd` 可以
+如果没有使用 `systemd` 可以使用 `seatd` 的 `server` flag 来以服务的方式运行 `seatd` 从而代替 `logind`。
 
 ## 为其他机器编译内核
 
