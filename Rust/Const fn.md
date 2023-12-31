@@ -22,3 +22,4 @@ const fn five_numbers() -> [u32; 5] {
 
 > 目前的 `const fn` 不支持迭代器，同样也无法支持 `for loop`。
 
+除此之外，`const fn` 还可以是范型的，同时可以接受一个 `const generic`
