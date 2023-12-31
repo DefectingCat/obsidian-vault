@@ -37,3 +37,22 @@ const fn numbers<const N: usize>() -> [u32; N] {
     numbers
 }
 ```
+
+不仅如此，Rust 还支持在 `const fn` 中使用切片模式解构
+
+```rust
+const fn len(strs: &[&str]) -> usize {
+    let mut result = 0;
+    let mut remaining = strs;
+
+    // get first element in array, calculate its length
+    // then use slice deconstruction to update remaining
+    // until empty
+    while let [current, tail @ ..] = remaining {
+        result += current.len();
+        remaining = tail;
+    }
+
+    result
+}
+```
