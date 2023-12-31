@@ -22,4 +22,18 @@ const fn five_numbers() -> [u32; 5] {
 
 > 目前的 `const fn` 不支持迭代器，同样也无法支持 `for loop`。
 
-除此之外，`const fn` 还可以是范型的，同时可以接受一个 `const generic`
+除此之外，`const fn` 还可以是范型的，同时可以接受一个 `const generic`。这使得我们甚至可以轻松在编译期动态的创建数组。
+
+```rust
+const fn numbers<const N: usize>() -> [u32; N] {
+    let mut numbers = [0u32; N];
+
+    let mut i = 0;
+    while i < N {
+        numbers[i] = i as u32 + 1;
+        i += 1;
+    }
+
+    numbers
+}
+```
