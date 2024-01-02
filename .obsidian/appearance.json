@@ -1,7 +1,8 @@
 {
   "accentColor": "",
-  "theme": "system",
+  "theme": "moonstone",
   "translucency": false,
   "cssTheme": "Minimal",
-  "textFontFamily": "JetBrains Mono"
+  "textFontFamily": "JetBrains Mono",
+  "baseFontSize": 18
 }
