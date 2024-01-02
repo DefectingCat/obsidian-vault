@@ -3,6 +3,7 @@
   "theme": "moonstone",
   "translucency": false,
   "cssTheme": "Minimal",
-  "textFontFamily": "JetBrains Mono",
-  "baseFontSize": 18
+  "textFontFamily": "JetBrains Mono NL",
+  "baseFontSize": 18,
+  "interfaceFontFamily": ""
 }
