@@ -14,4 +14,4 @@ pacman -S webkit2gtk unzip
 node scripts/download-core.mjs 
 ```
 
-### Build 
+### Build
