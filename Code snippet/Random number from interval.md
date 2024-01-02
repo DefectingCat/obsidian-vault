@@ -1,5 +1,3 @@
-# Random number from interval
-
 `Math.random()` multiply max value minus min value plus one and plus min value.
 
 ```tsx

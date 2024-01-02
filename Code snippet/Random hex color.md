@@ -1,5 +1,3 @@
-# Random hex color
-
 ```tsx
 export function randomColors() {
     return `#${Math.floor(Math.random() * 16777215).toString(16)}`;

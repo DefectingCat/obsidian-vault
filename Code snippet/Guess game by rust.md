@@ -1,5 +1,3 @@
-# Guess game by rust
-
 ```rust
 use rand::Rng;
 use std::{cmp::Ordering, io};
@@ -31,7 +29,6 @@ fn main() {
                 println!("You win!");
                 break;
             }
-
             Ordering::Greater => println!("Too big!"),
         }
 

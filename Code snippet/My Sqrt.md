@@ -1,5 +1,3 @@
-# My Sqrt
-
 ```go
 func Sqrt(x float64) float64 {
 	z := 1.0

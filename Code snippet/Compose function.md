@@ -1,5 +1,3 @@
-# Compose function
-
 ```tsx
 const compose =
   <T>(...fns: ((...arg: T[]) => T)[]) =>

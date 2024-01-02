@@ -1,5 +1,3 @@
-# Random string generator
-
 ```tsx
 const characters =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*_';

@@ -1,5 +1,3 @@
-# Override TypeScript type and interface
-
 ```tsx
 type A = {
   name: 'a'

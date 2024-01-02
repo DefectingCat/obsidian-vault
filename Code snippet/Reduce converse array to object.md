@@ -1,5 +1,3 @@
-# Reduce converse array to object
-
 ```tsx
 const colors = [
   {
