@@ -1,6 +1,6 @@
 - [x] Refactor message channel handler
 - [x] Mutex DerefMut
-- [ ] v2ray-core
+- [x] v2ray-core
 	- [x] 配置文件
 	- [x] 启动 core
 	- [x] 解析订阅链接
@@ -12,7 +12,7 @@
 - [ ] updater 检查更新
 - [ ] 自动更新订阅
 - [x] 单实例 plugin
-- [ ] 启动时检查 v2ray-core 进程
+- [x] 启动时检查 v2ray-core 进程 [only dev]
 - [x] 订阅
 	- [x] 分享
 	- [x] 编辑
@@ -38,17 +38,13 @@
 	- [ ] 添加版本更新时覆盖 core 配置文件
 - [x] Page
 	- [x] Logginga
-	- [ ] config editor
+	- [x] config editor
 	- [x] global loading state
 - [x] 添加节点崩溃的问题
 - [x] Delete core outbound node when delete subscription
-- [ ] 路由
-- [ ] 重构核心
+- [x] 路由
+- [x] 重构核心
 - [ ] Set system proxy
 	- [ ] Windows
 	- [ ] MacOS
 	- [ ] Linux
-
-- [ ] 使用 axum 反代
-- [ ] 使用 tauri 的 nativer
-- [ ] 构建 show-client desktop

@@ -1,2 +1,3 @@
 - [ ] Parse github gists
 - [ ] improve performance
+- [ ] loading state
