@@ -1,7 +1,11 @@
 ## Binary!
 
 [Gentoo gose Binary!](https://www.gentoo.org/news/2023/12/29/Gentoo-binary.html)
-在一月的倒数前两天，Gentoo 整了个新活。
+在一月的倒数前两天，Gentoo 整了个新活。不再像以前只有过于复杂的软件提供了二进制文件（例如 linux 内核和 firefox），现在整个包管理器 Portage 都提供了二进制的选择。
+
+> You probably all know Gentoo Linux as your favourite source-based distribution. Did you know that our package manager, Portage, already for years also has support for binary packages
+
+终究还是变成了当初自己最讨厌的那个自己。
 
 ## 磁盘与分区
 
@@ -130,7 +134,23 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 ## 系统的更新
 
+在合并整个系统的包之前，首先要做的就是先同步下镜像。
 
+```bash
+sudo emerge-webrsync
+```
+
+然后便是直接合并，并重新编译。
+
+```bash
+sudo emerge -avuDU @world
+```
+
+对于新活
+
+```bash
+sudo emerge -avuDUg @world
+```
 
 ## 一些 emerge 的缩写
 
