@@ -7,6 +7,36 @@
 
 终究还是变成了当初自己最讨厌的那个自己。
 
+要用上最新的二进制软件分发，第一步就是确认镜像源。
+
+```bash
+sudo vim /etc/portage/binrepos.conf/gentoobinhost.conf
+```
+
+在 `/etc/portage/` 中新增的 `binrepos.conf` 文件夹中就是新的二进制文件的镜像。
+
+```
+# These settings were set by the catalyst build script that automatically
+# built this stage.
+# Please consider using a local mirror.
+
+[gentoobinhost]
+priority = 1
+# sync-uri = https://gentoo.osuosl.org/releases/amd64/binpackages/17.1/x86-64
+sync-uri = https://mirrors.tuna.tsinghua.edu.cn/gentoo/releases/amd64/binpackages/17.1/x86-64/
+```
+
+在 `make.conf` 中，可以通过 `EMERGE_DEFAULT_OPTS` 为 emerge 设置新的默认使用二进制的选项。
+
+```
+# Binary packages
+BINPKG_FORMAT="gpkg"
+EMERGE_DEFAULT_OPTS="${EMERGE_DEFAULT_OPTS} --getbinpkg --binpkg-respect-use=n"
+FEATURES="getbinpkg"
+```
+
+`--binpkg-respect-use=n` 的设置会使得当 gentoo 分发的二进制软件不符合当前的 USE flags 时，仍然考虑安装。将其设置到 `make.conf` 中可能会出事。
+
 ## 磁盘与分区
 
 根据手册中描述的对应磁盘类型的设备名称，可以更方便的找到对应的设备。
@@ -67,6 +97,8 @@ Gentoo 为我们提供了三种内核的选择：
 - Manual configuration：完全的手动配置。
 
 ### Manual configuration
+
+整个 Linux 内核的可配置项目比较多，
 
 ## Hyprland
 
