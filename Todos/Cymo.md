@@ -1,0 +1,1 @@
+- [ ] Use [crossterm](https://docs.rs/crossterm/latest/crossterm/index.html) to build TUI

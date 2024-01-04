@@ -1,4 +1,6 @@
 - [ ] Parse github gists
 - [ ] improve performance
 - [ ] loading state
+- [ ] implement settings
+- [ ] preview in newline
 - [x] custom parser setting. default is `http://iframely.server.crestify.com/iframely?url=${this.url}`
