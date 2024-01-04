@@ -1,3 +1,8 @@
+## Binary!
+
+[Gentoo gose Binary!](https://www.gentoo.org/news/2023/12/29/Gentoo-binary.html)
+在一月的倒数前两天，Gentoo 整了个新活。
+
 ## 磁盘与分区
 
 根据手册中描述的对应磁盘类型的设备名称，可以更方便的找到对应的设备。
