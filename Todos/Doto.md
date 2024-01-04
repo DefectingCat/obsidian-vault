@@ -3,4 +3,6 @@
 - [ ] loading state
 - [ ] implement settings
 - [ ] preview in newline
+- [ ] add error handle
+- [x] multiple in one line
 - [x] custom parser setting. default is `http://iframely.server.crestify.com/iframely?url=${this.url}`
