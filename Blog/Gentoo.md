@@ -141,6 +141,14 @@ sudo emerge -av --autounmask=y --autounmask-write
 sudo emerge -avuDN @world
 ```
 
+or
+
+```bash
+sudo emerge -avuDU @world
+```
+
+大写的 `N` 代表
+
 ### Deselect and clean dep
 
 ```bash
