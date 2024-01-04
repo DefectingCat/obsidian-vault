@@ -139,15 +139,17 @@ sudo emerge -av --autounmask=y --autounmask-write
 
 ```bash
 sudo emerge -avuDN @world
+sudo emerge --ask --verbose --update --deep --newuse @world
 ```
 
 or
 
 ```bash
 sudo emerge -avuDU @world
+sudo emerge --ask --verbose --update --deep --changed-use @world'
 ```
 
-大写的 `N` 代表
+大写的 `N` 代表 `--newuse`，大写的 `U` 代表 `--changed-use`。当已经被禁用的 USE flags 被添加或移除时，使用 `--changed-use` 不会触发重新安装。
 
 ### Deselect and clean dep
 
