@@ -119,6 +119,8 @@ Gentoo 为我们提供了三种内核的选择：
 
 如果没有使用 `systemd` 可以使用 `seatd` 的 `server` flag 来以服务的方式运行 `seatd` 从而代替 `logind`。
 
+### Dbus
+
 ## 为其他机器编译内核
 
 参考这个帖子：[Compiling kernel from another pc can I use it to my pc?](https://forums.gentoo.org/viewtopic-t-1056998-start-0.html#top)。在为其他硬件编译内核只需要选择好目标所需要的驱动，并且别一不小心安装到当前机器上就行了。
