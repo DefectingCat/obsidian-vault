@@ -1,0 +1,21 @@
+{
+	"nodes":[
+		{"id":"e1b0bdeed73143fa","x":-320,"y":-180,"width":250,"height":60,"type":"text","text":"show-client"},
+		{"id":"5d53da31cf0fb9bb","x":-319,"y":-80,"width":250,"height":60,"type":"text","text":"loading screen"},
+		{"id":"ca770c7f4860f00e","x":-344,"y":40,"width":301,"height":87,"type":"text","text":"dispatch event `enter-booth`"},
+		{"id":"3a8313072a6c3a7b","x":60,"y":54,"width":250,"height":60,"type":"text","text":"show-library"},
+		{"id":"b851fb32b00c3300","x":38,"y":180,"width":294,"height":80,"type":"text","text":"class `Pojrect` `this.scene.enterBooth()`"},
+		{"id":"bede9a430da71a83","x":38,"y":320,"width":294,"height":88,"type":"text","text":"class `SceneManger` \n`this.enterScene(init)`"},
+		{"id":"1ecdfbcfcefdf8ca","type":"text","text":"播放自动视频\n`this.contentManager`","x":100,"y":460,"width":260,"height":88},
+		{"id":"9beb35e1fd5cc9e9","type":"text","text":"播放场景讲解\n`this.speechManager`","x":100,"y":600,"width":260,"height":88}
+	],
+	"edges":[
+		{"id":"d323dec7cd4e85f9","fromNode":"e1b0bdeed73143fa","fromSide":"bottom","toNode":"5d53da31cf0fb9bb","toSide":"top"},
+		{"id":"c4eafa29420a6528","fromNode":"5d53da31cf0fb9bb","fromSide":"bottom","toNode":"ca770c7f4860f00e","toSide":"top"},
+		{"id":"51d8fe444afb1cec","fromNode":"ca770c7f4860f00e","fromSide":"right","toNode":"3a8313072a6c3a7b","toSide":"left"},
+		{"id":"3954e0395c2e2f3f","fromNode":"3a8313072a6c3a7b","fromSide":"bottom","toNode":"b851fb32b00c3300","toSide":"top"},
+		{"id":"96224f9643e06ce0","fromNode":"b851fb32b00c3300","fromSide":"bottom","toNode":"bede9a430da71a83","toSide":"top"},
+		{"id":"b58b9af2ad75d097","fromNode":"bede9a430da71a83","fromSide":"bottom","toNode":"1ecdfbcfcefdf8ca","toSide":"top"},
+		{"id":"665e652787df0a37","fromNode":"1ecdfbcfcefdf8ca","fromSide":"bottom","toNode":"9beb35e1fd5cc9e9","toSide":"top"}
+	]
+}
