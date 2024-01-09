@@ -104,8 +104,61 @@ Gentoo 为我们提供了三种内核的选择：
 
 Emerge 不同于其他发型版提供的包管理器，是 Gentoo 提供的一种从源码编译软件的主要方式之一。也是使用 Gentoo 的特性之一的最佳方式：`USE flags`。
 
-不同于二进制直接发行，emerge 从源码编译时支持使用 `USE flags` 来支持
+不同于二进制直接发行，emerge 从源码编译时支持使用 `USE flags` 来支持对软件的自定义。
 
+例如安装 kitty 时只需要支持 wayland，不需要传统的 X 的支持。直接将其使用 flags `-X` 标记为不需要即可，在编译时就不会编译对应的支持。
+
+```bash
+[ebuild   R    ] x11-terms/kitty-0.31.0::gentoo  USE="wayland -X -test -verify-sig" PYTHON_SINGLE_TARGET="python3_11 -python3_10 (-python3_12)" 0 KiB
+```
+
+对软件精细的控制是 Gentoo 的特点之一，同时代价就是安装软件时的编译时间。对于本地编译从而提升对本机 CPU 的优化在编译时间面前可能显得一文不值。
+
+### Portage
+
+说是 emerge 是类似包管理器，在官方 [wiki Portage 页面](https://wiki.gentoo.org/wiki/Portage) 中 Portage 才被称之为包管理器和分发系统，emerge 可以说是它的工具之一。
+出了包管理器之外，还有对整个系统的管理，例如设置 profile 等。
+
+对 Portage 对设置文件都保存在 `/etc/portage`，包括最熟悉的 `make.conf`。
+
+```bash
+# /etc/portage
+drwxr-xr-x 3 root root   31 Nov 27  2022 profile
+drwxr-xr-x 3 root root   24 Nov 26 08:53 savedconfig
+drwxr-xr-x 2 root root    6 Dec  2 03:49 package.mask
+drwxr-xr-x 2 root root   41 Dec  5 21:29 package.accept_keywords
+-rw-r--r-- 1 root root   77 Dec  6 06:14 package.license
+-rw-r--r-- 1 root root  865 Dec 12 05:41 make.conf.euse_backup
+lrwxrwxrwx 1 root root   67 Dec 12 06:33 make.profile -> ../../var/db/repos/gentoo/profiles/default/linux/amd64/17.1/desktop
+-rw-r--r-- 1 root root 1.1K Jan  4 09:05 make.conf
+drwxr-xr-x 2 root root   76 Jan  4 09:26 repos.conf
+drwxr-xr-x 2 root root   32 Jan  4 09:36 binrepos.conf
+drwxr-xr-x 5 root root  154 Jan  4 21:18 gnupg
+drwxr-xr-x 2 root root   38 Jan  9 11:44 package.use
+```
+
+常用的或者说后续在使用系统时大概率是需要了解的：
+
+- `packge.mask`: 
+### Flags 的设置
+
+在 `/etc/portage/make.conf` 中设置的是全局生效的 flags，也就是安装任何软件软件时，只要有对应的 flags 就会应用。
+
+```c
+USE="wayland qsv jpegxl opengl vulkan drm icons pulseaudio videocodecs \
+     audiocodecs web alsa gles2 \
+     -gtk -plasma -gnome -kde -dvd -systemd -nvidia -bluetooth \
+     -qtwebengine -nouveau -thunderbolt -dri -accessibility -X"
+```
+
+如果要对单独某个软件设置 flags，则需要在 `/etc/portage/package.use` 中为指定的软件设置。`package.use` 可以是一个文件，也可以是一个文件夹。在新安装的系统中大概率是一个已经存在的文件夹，当是一个文件夹时，其下的所有文件中的 flags 都会被应用。
+
+其写法与 `make.conf` 中的 `USE` 字段略微有点不同。`/etc/portage/package.use/tmux`
+
+```
+# tmux vim syntax
+>=app-misc/tmux-3.3a-r1 vim-syntax
+```
 ## Hyprland
 
 作为新时代的系统窗口协议，Wayland 是良好的 X11 替代品。
