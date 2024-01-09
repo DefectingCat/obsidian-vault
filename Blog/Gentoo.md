@@ -180,6 +180,8 @@ USE="wayland qsv jpegxl opengl vulkan drm icons pulseaudio videocodecs \
 
 ### Dbus
 
+如果是没有选择 `desktop` profile 安装的最小化环境，可能没有 XDG 的一些环境变量和需要的一些目录。
+
 ## 为其他机器编译内核
 
 参考这个帖子：[Compiling kernel from another pc can I use it to my pc?](https://forums.gentoo.org/viewtopic-t-1056998-start-0.html#top)。在为其他硬件编译内核只需要选择好目标所需要的驱动，并且别一不小心安装到当前机器上就行了。
