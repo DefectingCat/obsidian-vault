@@ -43,6 +43,7 @@
 - [x] 添加节点崩溃的问题
 - [x] Delete core outbound node when delete subscription
 - [x] 路由
+- [ ] 节点测速 500ms log
 - [x] 重构核心
 - [ ] Set system proxy
 	- [ ] Windows
