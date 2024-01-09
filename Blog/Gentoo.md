@@ -102,9 +102,9 @@ Gentoo 为我们提供了三种内核的选择：
 
 ## Emerge
 
-Emerge 不同于其他发型版提供的包管理器，是 Gentoo 提供的一种从源码编译软件的主要方式之一。也是 Gentoo 与其他发型版最大不同的地方之一
+Emerge 不同于其他发型版提供的包管理器，是 Gentoo 提供的一种从源码编译软件的主要方式之一。也是使用 Gentoo 的特性之一的最佳方式：`USE flags`。
 
-
+不同于二进制直接发行，emerge 从源码编译时支持使用 `USE flags` 来支持
 
 ## Hyprland
 
