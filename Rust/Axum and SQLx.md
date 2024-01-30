@@ -1,4 +1,19 @@
-一个 Web APP 该有的基本素养就是少不了数据库。对比了各种 ORM 之后，选择了 SQLx。它在目前阶段中比较热门的一个 sql driver。它的一个亮点就是可以使用宏来在编译期构建 SQL 语句，从而实现
+一个 Web APP 该有的基本素养就是少不了数据库。对比了各种 ORM 之后，选择了 SQLx。它在目前阶段中比较热门的一个 sql driver。它的一个亮点就是可以使用宏来在编译期构建 SQL 语句。
+
+```rust
+let last_post = sqlx::query_as!(
+    LastPost,
+    // language=PostgreSQL
+    r#"
+SELECT id, per_page, current_page, last_page, create_at
+FROM last_post
+ORDER BY create_at DESC
+LIMIT 1;
+    "#
+)
+.fetch_optional(pool)
+.await?;
+```
 
 [sqlx_pool.rs](https://gist.github.com/DefectingCat/b482858c8ea148fe4c01f73c1c772628)
 
