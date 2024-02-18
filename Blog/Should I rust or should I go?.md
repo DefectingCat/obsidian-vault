@@ -1,4 +1,8 @@
 
+Basic CRUD
+
+对于 Golang 来说，早已有较为成熟的解决方案。
+
 ## JSON
 
 ```rust
