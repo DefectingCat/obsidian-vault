@@ -20,3 +20,9 @@ WHERE column1 LIKE '%word1%'
    OR column1 LIKE '%word2%'
    OR column1 LIKE '%word3%'
 ```
+
+## Update row
+
+```sql
+update users set username='xfy_sonetto' where email='i@rua.plus';
+```
