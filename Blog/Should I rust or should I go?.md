@@ -41,6 +41,32 @@ Golang 与传统使用 `src` 一个目录做为所有源代码文件的入口不
     └── token.go
 ```
 
+## Hello World
+
+Gin 的一个基本的路由，返回一个 `json` 也是非常的简洁明了。
+
+```go
+package controllers
+
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
+
+type RootController struct{}
+
+type RootStatus struct {
+	Status string `json:"status"`
+}
+
+func (root RootController) Root(c *gin.Context) {
+	status := &RootStatus{
+		Status: "ok",
+	}
+	c.JSON(http.StatusOK, status)
+}
+```
+
 ## JSON
 
 ```rust
