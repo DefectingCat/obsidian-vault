@@ -1,7 +1,7 @@
 
 ## Basic CRUD
 
-对于多数语言来说，一个需求多数情况下都有多个解决方案，而选择稳定稳定可维护的才是长久之计。对于 Golang 来说，早已有较为成熟的解决方案。所以选择的是 Gin 与 Gorm。
+对于多数语言来说，一个需求多数情况下都有多个解决方案，而选择稳定稳定可维护的才是长久之计。对于 Golang 来说，早已有较为成熟的解决方案。所以选择的是 Gin 与 Gorm。而在 Rust 中，采用的是 axum 和 sqlx，没有采用 ORM 可能会使数据库查询会更快一点。
 
 基础功能：
 
@@ -12,6 +12,34 @@
 5. 重新登录后，旧的 token 失效
 6. 更新用户信息
 7. 删除用户，注销账户
+
+## 项目结构
+
+### Golang
+
+Golang 与传统使用 `src` 一个目录做为所有源代码文件的入口不同，它更偏向于整个项目根目录直接存放所有代码。
+
+```
+.
+├── Makefile
+├── controllers
+│   ├── root.go
+│   └── user.go
+├── db
+│   └── postgres.go
+├── go.mod
+├── go.sum
+├── main.go
+├── middlewares
+│   └── auth.go
+├── models
+│   └── user.go
+├── server
+│   ├── router.go
+│   └── server.go
+└── utils
+    └── token.go
+```
 
 ## JSON
 
