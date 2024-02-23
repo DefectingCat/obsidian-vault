@@ -43,7 +43,7 @@ Golang 与传统使用 `src` 一个目录做为所有源代码文件的入口不
 
 ## Hello World
 
-Gin 的一个基本的路由，返回一个 `json` 也是非常的简洁明了。
+Gin 的一个基本的路由，返回一个 `json` 也是非常的简洁明了。直接操作
 
 ```go
 package controllers
