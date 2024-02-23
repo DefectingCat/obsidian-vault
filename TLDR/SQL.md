@@ -26,3 +26,11 @@ WHERE column1 LIKE '%word1%'
 ```sql
 update users set username='xfy_sonetto' where email='i@rua.plus';
 ```
+
+Insert row
+
+```sql
+insert into users (username, email, password)
+values ('test', 'test@test.com', 'test')
+returning id, username, email, password;
+```
