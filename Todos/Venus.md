@@ -53,3 +53,4 @@
 ## Fix
 
 - [ ] Get core version after restart
+- [ ] Subscription auto update
