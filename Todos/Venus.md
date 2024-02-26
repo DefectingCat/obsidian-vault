@@ -49,3 +49,7 @@
 	- [ ] Windows
 	- [ ] MacOS
 	- [ ] Linux
+
+## Fix
+
+- [ ] Get core version after restart
