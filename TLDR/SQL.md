@@ -49,3 +49,9 @@ alter column gender type smallint USING (gender::smallint);
 select * from users where gender = '';
 update users set gender = null where gender = '';
 ```
+
+add column
+
+```sql
+alter table users add column "uid" bigint not null default 100000;
+```
