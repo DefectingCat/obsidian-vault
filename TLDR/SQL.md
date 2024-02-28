@@ -34,3 +34,18 @@ insert into users (username, email, password)
 values ('test', 'test@test.com', 'test')
 returning id, username, email, password;
 ```
+
+## Alter column
+
+convert column's data type
+
+```sql
+SELECT * FROM public.users
+ORDER BY id ASC ;
+
+alter table users
+alter column gender type smallint USING (gender::smallint);
+
+select * from users where gender = '';
+update users set gender = null where gender = '';
+```
