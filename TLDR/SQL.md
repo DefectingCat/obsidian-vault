@@ -55,3 +55,13 @@ add column
 ```sql
 alter table users add column "uid" bigint not null default 100000;
 ```
+
+## Contains
+
+```go
+	if userInfo.Username != "" {
+		dbRes = user.Db.Model(&models.User{}).
+			Find(&users, "(username ILIKE '%' || ? || '%') OR ( ? ILIKE '%' || username || '%')", userInfo.Username, userInfo.Username)
+		return
+	}
+```
