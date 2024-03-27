@@ -7,6 +7,7 @@
 	],
 	"edges":[
 		{"id":"a51250a55b7506c5","fromNode":"308d31fa7a959dea","fromSide":"left","toNode":"1c95381023bfc39d","toSide":"right","label":"封装为 Task"},
-		{"id":"3d4fa73cb08c83b1","fromNode":"1c95381023bfc39d","fromSide":"right","toNode":"dd2fde21ae57f92a","toSide":"left","label":"封装为 Task"}
+		{"id":"3d4fa73cb08c83b1","fromNode":"1c95381023bfc39d","fromSide":"right","toNode":"dd2fde21ae57f92a","toSide":"left","label":"封装为 Task"},
+		{"id":"e1392cd5030932db","fromNode":"308d31fa7a959dea","fromSide":"right","toNode":"66b7ede461a4f0fa","toSide":"right","label":"发送封装好的 Task"}
 	]
 }
