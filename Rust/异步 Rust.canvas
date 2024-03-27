@@ -1,0 +1,6 @@
+{
+	"nodes":[
+		{"id":"1c95381023bfc39d","x":-125,"y":-30,"width":325,"height":230,"type":"text","text":"Future trait\n\n实现 `poll` 方法"}
+	],
+	"edges":[]
+}
