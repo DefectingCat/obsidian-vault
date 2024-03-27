@@ -542,3 +542,5 @@ mod tests {
 ```bash
 cargo test -- --nocapture
 ```
+
+![](异步%20Rust.canvas)
