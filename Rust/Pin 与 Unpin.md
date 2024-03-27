@@ -4,6 +4,17 @@
 * 类型的值可以在内存中安全的移动，例如数值、字符串、布尔值、结构体、枚举等；
 * 自引用值，保存对自身的引用的值；
 
+## 自引用
+
+Pin 就是为了解决一个主要的问题：自引用类型。例如一个结构体保存了一个引用类型，同时还有个指针指向这个引用类型。这是个非常常见的数据结构，在很多时候都很有用。但是它不是内存安全的，加上 Rust 会经常在内存中移动值，例如将这个结构体传给一个函数，在函数中它可能就被移动到了新的地址
+
+```rust
+#[derive(Debug)]
+struct SelfRef {
+    value: String,
+    pointer: *const String,
+}
+```
 ## 参考
 
 - [Pin, Unpin, and why Rust needs them](https://blog.cloudflare.com/pin-and-unpin-in-rust)
