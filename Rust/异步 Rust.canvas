@@ -1,6 +1,6 @@
 {
 	"nodes":[
-		{"id":"1c95381023bfc39d","x":-125,"y":-30,"width":325,"height":230,"type":"text","text":"Future trait\n\n实现 `poll` 方法"}
+		{"id":"1c95381023bfc39d","x":-125,"y":-30,"width":325,"height":230,"type":"text","text":"Future trait\n\n实现 `poll` 方法。\n\n在 `poll` 方法中，任务未完成返回 `Poll::Pending`，完成了则返回 `Poll::Ready(())`。\n\nFuture 是惰性的，只由执行器 `poll` 一次，Pending 之后由 `poll` 方法中的 `cx: &mut Context<'_>` 中 `cx.waker()` 来唤醒"}
 	],
 	"edges":[]
 }
