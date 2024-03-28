@@ -42,3 +42,15 @@ kill
 ```
 f
 ```
+
+## Print a variable details
+
+```
+p <variable name>
+```
+
+## Display frame list
+
+```
+fr l
+```
