@@ -59,4 +59,22 @@ impl<T> Trait for &mut T {} // 编译通过
 
 但 _持有_ `'static` 生命周期注解的类型和一个满足 `'static` _约束_ 的类型是不一样的。后者可以于运行时被动态分配，能被安全自由地修改，也可以被 drop, 还能存活任意的时长。
 
+```rust
+use std::fmt::Display;
+
+fn main() {
+    let rand_string = leak_static();
+    test_static(rand_string);
+}
+
+fn leak_static() -> &'static str {
+    let rand_string = rand::random::<u64>().to_string();
+    Box::leak(rand_string.into_boxed_str())
+}
+
+fn test_static<T: 'static + Display>(rand_string: T) {
+    println!("random leak string {}", rand_string);
+}
+```
+
 [common-rust-lifetime-misconceptions](https://github.com/pretzelhammer/rust-blog/blob/4ccb14209030cec02d02d8a103679d7c24bd50df/posts/translations/zh-hans/common-rust-lifetime-misconceptions.md)
