@@ -81,4 +81,37 @@ fn test_static<T: 'static + Display>(rand_string: T) {
 }
 ```
 
+`T: 'static` 是指 `T` 可以被安全地无期限地持有，甚至可以直到程序结束。 `T: 'static` 在包括了全部 `&'static T` 的同时，还包括了全部所有权类型， 比如 `String`, `Vec` 等等。 数据的所有者保证，只要自身还持有数据的所有权，数据就不会失效，因此所有者能够安全地无期限地持有其数据，甚至可以直到程序结束。`T: 'static` 应当视为 _“`T` 满足 `'static` 生命周期约束”_ 而非 _“`T` 有着 `'static` 生命周期”_。 一个程序可以帮助阐述这些概念：
+
+```rust
+use rand;
+
+fn drop_static<T: 'static>(t: T) {
+    std::mem::drop(t);
+}
+
+fn main() {
+    let mut strings: Vec<String> = Vec::new();
+    for _ in 0..10 {
+        if rand::random() {
+            // 所有字符串都是随机生成的
+            // 并且在运行时动态分配
+            let string = rand::random::<u64>().to_string();
+            strings.push(string);
+        }
+    }
+
+    // 这些字符串是所有权类型，所以他们满足 'static 生命周期约束
+    for mut string in strings {
+        // 这些字符串是可变的
+        string.push_str("a mutation");
+        // 这些字符串都可以被 drop
+        drop_static(string); // 编译通过
+    }
+
+    // 这些字符串在程序结束之前就已经全部失效了
+    println!("i am the end of the program");
+}
+```
+
 [common-rust-lifetime-misconceptions](https://github.com/pretzelhammer/rust-blog/blob/4ccb14209030cec02d02d8a103679d7c24bd50df/posts/translations/zh-hans/common-rust-lifetime-misconceptions.md)
