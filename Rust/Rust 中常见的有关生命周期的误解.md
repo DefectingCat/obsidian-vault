@@ -114,6 +114,44 @@ fn main() {
 }
 ```
 
+```rust
+use rand::random;
+use std::fmt::Display;
+
+fn main() {
+    let mut strings = Vec::new();
+    for _ in 0..10 {
+        if random() {
+            let string = leak_static();
+            strings.push(string)
+        }
+    }
+
+    strings.iter().for_each(test_borrow);
+    strings.into_iter().for_each(test_static);
+    // strings.into_iter().for_each(drop_static);
+
+    println!("end of the program");
+}
+
+fn leak_static() -> &'static str {
+    let rand_string = rand::random::<u64>().to_string();
+    Box::leak(rand_string.into_boxed_str())
+}
+
+fn test_borrow<T: Display + ?Sized>(rand_string: &T) {
+    println!("random leak string {}", rand_string);
+}
+
+fn test_static<T: Display + ?Sized>(rand_string: &'static T) {
+    println!("random leak string {}", rand_string);
+}
+
+fn drop_static<T: 'static>(target: T) {
+    std::mem::drop(target);
+}
+```
+
 总的来说就是
 
 - `&'static T` 是一个指向 `T` 的不可变引用，其中 `T` 可以被安全地无期限地持有，甚至可以直到程序结束。
