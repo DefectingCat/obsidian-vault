@@ -178,4 +178,117 @@ fn drop_static<T: 'static>(target: T) {
     - 可以在运行时被动态的 drop
     - 可以有不同长度的生命周期
 
+## `&'a T` 和 `T: 'a` 是一回事
+
+`&'a T` 要求并隐含了 `T: 'a` ，因为如果 `T` 本身不能在 `'a` 范围内保证有效，那么其引用也不能在 `'a` 范围内保证有效。例如，Rust 编译器不会运行构造一个 `&'static Ref<'a, T>`，因为如果 `Ref` 只在 `'a` 范围内有效，我们就不能给它 `'static` 生命周期。
+
+`T: 'a` 包括了全体 `&'a T`，但反之不成立。
+
+```rust
+// 只接受带有 'a 生命周期注解的引用类型
+fn t_ref<'a, T: 'a>(t: &'a T) {}
+
+// 接受满足 'a 生命周期约束的任何类型
+fn t_bound<'a, T: 'a>(t: T) {}
+
+// 内部含有引用的所有权类型
+struct Ref<'a, T: 'a>(&'a T);
+
+fn main() {
+    let string = String::from("string");
+
+    t_bound(&string); // 编译通过
+    t_bound(Ref(&string)); // 编译通过
+    t_bound(&Ref(&string)); // 编译通过
+
+    t_ref(&string); // 编译通过
+    t_ref(Ref(&string)); // 编译失败，期望得到引用，实际得到 struct
+    t_ref(&Ref(&string)); // 编译通过
+
+    // 满足 'static 约束的字符串变量可以转换为 'a 约束
+    t_bound(string); // 编译通过
+}
+```
+
+**关键点回顾**
+
+- `T: 'a` 比 `&'a T` 更泛化，更灵活
+- `T: 'a` 接受所有权类型，内部含有引用的所有权类型，和引用
+- `&'a T` 只接受引用
+- 若 `T: 'static` 则 `T: 'a` 因为对于所有 `'a` 都有 `'static` >= `'a`
+
+## 我的代码里不含泛型也不含生命周期注解
+
+**错误的推论**
+
+- 避免使用泛型和生命周期注解是可能的
+
+这个让人爽到的误解之所以能存在，要得益于 Rust 的生命周期省略规则，这个规则能允许你在函数定义以及 `impl` 块中省略掉显式的生命周期注解，而由借用检查器来根据以下规则对生命周期进行隐式推导。
+
+- 第一条规则是每一个是引用的参数都有它自己的生命周期参数
+- 第二条规则是如果只有一个输入生命周期参数，那么它被赋予所有输出生命周期参数
+- 第三条规则是如果是有多个输入生命周期参数的方法，而其中一个参数是 `&self` 或 `&mut self`, 那么所有输出生命周期参数被赋予 `self` 的生命周期。
+- 其他情况下，生命周期必须有明确的注解
+
+这里有不少值得讲的东西，让我们来看一些例子：
+
+```rust
+// 展开前
+fn print(s: &str);
+
+// 展开后
+fn print<'a>(s: &'a str);
+
+// 展开前
+fn trim(s: &str) -> &str;
+
+// 展开后
+fn trim<'a>(s: &'a str) -> &'a str;
+
+// 非法，没有输入，不能确定返回值的生命周期
+fn get_str() -> &str;
+
+// 显式标注的方案
+fn get_str<'a>() -> &'a str; // 泛型版本
+fn get_str() -> &'static str; // 'static 版本
+
+// 非法，多个输入，不能确定返回值的生命周期
+fn overlap(s: &str, t: &str) -> &str;
+
+// 显式标注（但仍有部分标注被省略）的方案
+fn overlap<'a>(s: &'a str, t: &str) -> &'a str; // 返回值的生命周期不长于 s
+fn overlap<'a>(s: &str, t: &'a str) -> &'a str; // 返回值的生命周期不长于 t
+fn overlap<'a>(s: &'a str, t: &'a str) -> &'a str; // 返回值的生命周期不长于 s 且不长于 t
+fn overlap(s: &str, t: &str) -> &'static str; // 返回值的生命周期可以长于 s 或者 t
+fn overlap<'a>(s: &str, t: &str) -> &'a str; // 返回值的生命周期与输入无关
+
+// 展开后
+fn overlap<'a, 'b>(s: &'a str, t: &'b str) -> &'a str;
+fn overlap<'a, 'b>(s: &'a str, t: &'b str) -> &'b str;
+fn overlap<'a>(s: &'a str, t: &'a str) -> &'a str;
+fn overlap<'a, 'b>(s: &'a str, t: &'b str) -> &'static str;
+fn overlap<'a, 'b, 'c>(s: &'a str, t: &'b str) -> &'c str;
+
+// 展开前
+fn compare(&self, s: &str) -> &str;
+
+// 展开后
+fn compare<'a, 'b>(&'a self, &'b str) -> &'a str;
+```
+
+如果你写过
+
+- 结构体方法
+- 接收参数中有引用的函数
+- 返回值是引用的函数
+- 泛型函数
+- trait object(后面将讨论)
+- 闭包（后面将讨论）
+
+那么对于上面这些，你的代码中都有被省略的泛型生命周期注解。
+
+**关键点回顾**
+
+- 几乎所有的 Rust 代码都是泛型代码，并且到处都带有被省略掉的泛型生命周期注解
+
 [common-rust-lifetime-misconceptions](https://github.com/pretzelhammer/rust-blog/blob/4ccb14209030cec02d02d8a103679d7c24bd50df/posts/translations/zh-hans/common-rust-lifetime-misconceptions.md)
