@@ -167,4 +167,15 @@ fn drop_static<T: 'static>(target: T) {
 - `T: 'static` 是指 `T` 可以被安全地无期限地持有，甚至可以直到程序结束。 `T: 'static` 在包括了全部 `&'static T` 的同时，还包括了全部所有权类型。
 - 和 `T` `&T` 类似的是，`T: 'static` 也包括了 `&'static T`。
 
+**关键点回顾**
+
+- `T: 'static` 应当视为 _“`T` 满足 `'static` 生命周期约束”_
+- 若 `T: 'static` 则 `T` 可以是一个有 `'static` 生命周期的引用类型 _或_ 是一个所有权类型
+- 因为 `T: 'static` 包括了所有权类型，所以 `T`
+    - 可以在运行时动态分配
+    - 不需要在整个程序运行期间都有效
+    - 可以安全，自由地修改
+    - 可以在运行时被动态的 drop
+    - 可以有不同长度的生命周期
+
 [common-rust-lifetime-misconceptions](https://github.com/pretzelhammer/rust-blog/blob/4ccb14209030cec02d02d8a103679d7c24bd50df/posts/translations/zh-hans/common-rust-lifetime-misconceptions.md)
