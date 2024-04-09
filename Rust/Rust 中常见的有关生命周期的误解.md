@@ -291,4 +291,6 @@ fn compare<'a, 'b>(&'a self, &'b str) -> &'a str;
 
 - 几乎所有的 Rust 代码都是泛型代码，并且到处都带有被省略掉的泛型生命周期注解
 
+## 如果编译通过了，那么我标注的生命周期就是正确的
+
 [common-rust-lifetime-misconceptions](https://github.com/pretzelhammer/rust-blog/blob/4ccb14209030cec02d02d8a103679d7c24bd50df/posts/translations/zh-hans/common-rust-lifetime-misconceptions.md)
