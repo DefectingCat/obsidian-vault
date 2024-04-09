@@ -322,7 +322,7 @@ fn main() {
 
 `ByteIter` 是一个在 `&[u8]` 上的迭代器，每次获取一个字节并返回。这里只用一个 `<'a>` 的生命周期来表示数组的生命周期。在 `next()` 方法的实现中，剩下的生命周期交给编译器给我们推断。
 
-这样直接运行好像没有什么问题，但是当需要获取更多的字节是
+这样直接运行好像没有什么问题，但是当需要获取更多的字节时，生命周期的问题就会暴露出来了。
 
 ```rust
 fn main() {
@@ -334,6 +334,18 @@ fn main() {
     let byte2 = bytes.next();
     if byte1 == byte2 {}
 }
+```
+
+```rust
+error[E0499]: cannot borrow `bytes` as mutable more than once at a time
+  --> examples/byte_iter.rs:23:17
+   |
+22 |     let byte1 = bytes.next();
+   |                 ----- first mutable borrow occurs here
+23 |     let byte2 = bytes.next();
+   |                 ^^^^^ second mutable borrow occurs here
+24 |     if byte1 == byte2 {}
+   |        ----- first borrow later used here
 ```
 
 [common-rust-lifetime-misconceptions](https://github.com/pretzelhammer/rust-blog/blob/4ccb14209030cec02d02d8a103679d7c24bd50df/posts/translations/zh-hans/common-rust-lifetime-misconceptions.md)
