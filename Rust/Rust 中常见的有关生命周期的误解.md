@@ -348,4 +348,24 @@ error[E0499]: cannot borrow `bytes` as mutable more than once at a time
    |        ----- first borrow later used here
 ```
 
+发生这个问题的主要原因就是编译器为我们推断的被省略的生命周期，将其简单的展开下就不难发现，`next()` 方法返回的字节与 `self` 是具有相同的生命周期的。这就会直接导致了我们不能多次的调用位于 `&mut self` 上的 `next()` 方法，原因编译器也给我们解释的很清楚了：cannot borrow `bytes` as mutable more than once at a time.
+
+```rust
+struct ByteIter<'a> {
+    remainder: &'a [u8]
+}
+
+impl<'a> ByteIter<'a> {
+    fn next<'b>(&'b mut self) -> Option<&'b u8> {
+        if self.remainder.is_empty() {
+            None
+        } else {
+            let byte = &self.remainder[0];
+            self.remainder = &self.remainder[1..];
+            Some(byte)
+        }
+    }
+}
+```
+
 [common-rust-lifetime-misconceptions](https://github.com/pretzelhammer/rust-blog/blob/4ccb14209030cec02d02d8a103679d7c24bd50df/posts/translations/zh-hans/common-rust-lifetime-misconceptions.md)
