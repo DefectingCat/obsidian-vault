@@ -35,6 +35,34 @@ https://rustwasm.github.io/wasm-bindgen/api/js_sys/index.html
 crate-type = ["cdylib"]
 ```
 
+### WASM 的测试
+
+如果需要 WASM 的测试，则还需要个 `wasm-bindgen-test = "0.2"`，这个 crate 可以放在 `dev-dependencies`。
+
+```toml
+[dependencies]
+wasm-bindgen = "0.2.92"
+wasm-bindgen-futures = "0.4.42"
+js-sys = "0.3.69"
+web-sys = "0.3.69"
+# The `console_error_panic_hook` crate provides better debugging of panics by
+# logging them with `console.error`. This is great for development, but requires
+# all the `std::fmt` and `std::panicking` infrastructure, so isn't great for
+# code size when deploying.
+console_error_panic_hook = { version = "0.1.7", optional = true }
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.42"
+```
+
+随后就可以使用 `wasm-pack test` 来直接进行测试。
+
+```bash
+❯ wasm-pack test 
+Error: Must specify at least one of `--node`, `--chrome`, `--firefox`, or `--safari`
+Caused by: Must specify at least one of `--node`, `--chrome`, `--firefox`, or `--safari`
+```
+
 ## 项目结构
 
 `wasm-pack` 会将我们的 WASM 构建为一个符合 NPM 的目录结构，以便于直接在 Web 项目中应用。所以 Rust 的项目结构自然就是一个 `lib` 的结构。
