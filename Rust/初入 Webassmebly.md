@@ -9,9 +9,10 @@ Rust 在 WASM上主要使用 `wasm-pack` 与 `wasm-bindgen`，他们分别是：
 
 ```toml
 [dependencies]
-wasm-bindgen = "0.2.87"
-wasm-bindgen-futures = "0.4.37"
-js-sys = "0.3.64"
+wasm-bindgen = "0.2.92"
+wasm-bindgen-futures = "0.4.42"
+js-sys = "0.3.69"
+web-sys = "0.3.69"
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
 # all the `std::fmt` and `std::panicking` infrastructure, so isn't great for
@@ -22,12 +23,14 @@ console_error_panic_hook = { version = "0.1.7", optional = true }
 `wasm-pack` 属于构建工具一类，直接使用 `cargo install wasm-pack` 作为二进制可执行文件安装到机器上即可。此外就是一些不可或缺的依赖项：
 
 - `wasm-bindgen-futures`：异步 WASM function。
+- `web-sys`：浏览器的一些 API。
 - `js-sys`：JavaScript 的一些数据类型。
 
 `crate-type` 是必不可少的一个选项，主要用于 WASM 最后构建的产物。
 
 ```toml
-[lib] crate-type = ["cdylib"]
+[lib] 
+crate-type = ["cdylib"]
 ```
 
 ## 项目结构
