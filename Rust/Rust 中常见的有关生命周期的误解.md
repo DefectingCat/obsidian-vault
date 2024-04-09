@@ -293,4 +293,33 @@ fn compare<'a, 'b>(&'a self, &'b str) -> &'a str;
 
 ## 如果编译通过了，那么我标注的生命周期就是正确的
 
+Rust 编译器为我们省略的生命周期不总是正确的，这里指的更多的是语义上的。编译器只会保证检查时我们的代码是内存安全的，其他它就不会去尝试负责了。
+
+```rust
+struct ByteIter<'a> {
+    remainder: &'a [u8],
+}
+
+impl<'a> ByteIter<'a> {
+    fn next(&mut self) -> Option<&u8> {
+        if self.remainder.is_empty() {
+            None
+        } else {
+            let byte = &self.remainder[0];
+            self.remainder = &self.remainder[1..];
+            Some(byte)
+        }
+    }
+}
+
+fn main() {
+    let mut bytes = ByteIter {
+        remainder: b"hello world",
+    };
+    assert_eq!(Some(&b'h'), bytes.next());
+}
+```
+
+`ByteIter` 是一个在 `&[u8]` 上的迭代器，每次
+
 [common-rust-lifetime-misconceptions](https://github.com/pretzelhammer/rust-blog/blob/4ccb14209030cec02d02d8a103679d7c24bd50df/posts/translations/zh-hans/common-rust-lifetime-misconceptions.md)
