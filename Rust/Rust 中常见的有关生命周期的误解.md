@@ -385,6 +385,6 @@ impl<'remainder> Iterator for ByteIter<'remainder> {
 }
 ```
 
-将返回的字节生命周期和 `self` 区分开来，就能使其在语义上也正确
+将返回的字节生命周期和 `self` 区分开来，返回的字节是属于声明周期为 `remainder` 的字节数组，而后续在调用 `mut self` 也不会有影响。我们通过
 
 [common-rust-lifetime-misconceptions](https://github.com/pretzelhammer/rust-blog/blob/4ccb14209030cec02d02d8a103679d7c24bd50df/posts/translations/zh-hans/common-rust-lifetime-misconceptions.md)
