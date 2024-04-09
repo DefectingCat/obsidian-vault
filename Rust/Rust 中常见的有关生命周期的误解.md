@@ -320,6 +320,20 @@ fn main() {
 }
 ```
 
-`ByteIter` 是一个在 `&[u8]` 上的迭代器，每次
+`ByteIter` 是一个在 `&[u8]` 上的迭代器，每次获取一个字节并返回。这里只用一个 `<'a>` 的生命周期来表示数组的生命周期。在 `next()` 方法的实现中，剩下的生命周期交给编译器给我们推断。
+
+这样直接运行好像没有什么问题，但是当需要获取更多的字节是
+
+```rust
+fn main() {
+    let mut bytes = ByteIter {
+        remainder: b"hello world",
+    };
+    assert_eq!(Some(&b'h'), bytes.next());
+    let byte1 = bytes.next();
+    let byte2 = bytes.next();
+    if byte1 == byte2 {}
+}
+```
 
 [common-rust-lifetime-misconceptions](https://github.com/pretzelhammer/rust-blog/blob/4ccb14209030cec02d02d8a103679d7c24bd50df/posts/translations/zh-hans/common-rust-lifetime-misconceptions.md)
