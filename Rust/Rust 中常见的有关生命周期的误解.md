@@ -368,4 +368,23 @@ impl<'a> ByteIter<'a> {
 }
 ```
 
+了解了原因之后解决也非常的简单，我们返回的字节是从 `remainder` 上摘下来的引用，返回之后就和 `self` 一点关系也没有了。所以我们需要将其生命周期分开。
+
+```rust
+impl<'remainder> Iterator for ByteIter<'remainder> {
+    type Item = &'remainder u8;
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.remainder.is_empty() {
+            None
+        } else {
+            let byte = &self.remainder[0];
+            self.remainder = &self.remainder[1..];
+            Some(byte)
+        }
+    }
+}
+```
+
+将返回的字节生命为和字节数组
+
 [common-rust-lifetime-misconceptions](https://github.com/pretzelhammer/rust-blog/blob/4ccb14209030cec02d02d8a103679d7c24bd50df/posts/translations/zh-hans/common-rust-lifetime-misconceptions.md)
