@@ -26,6 +26,8 @@ console_error_panic_hook = { version = "0.1.7", optional = true }
 - `web-sys`：浏览器的一些 API。
 - `js-sys`：JavaScript 的一些数据类型。
 
+https://rustwasm.github.io/wasm-bindgen/api/js_sys/index.html
+
 `crate-type` 是必不可少的一个选项，主要用于 WASM 最后构建的产物。
 
 ```toml
