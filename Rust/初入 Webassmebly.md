@@ -24,6 +24,12 @@ console_error_panic_hook = { version = "0.1.7", optional = true }
 - `wasm-bindgen-futures`：异步 WASM function。
 - `js-sys`：JavaScript 的一些数据类型。
 
+`crate-type` 是必不可少的一个选项，主要用于 WASM 最后构建的产物。
+
+```toml
+[lib] crate-type = ["cdylib"]
+```
+
 ## 项目结构
 
 `wasm-pack` 会将我们的 WASM 构建为一个符合 NPM 的目录结构，以便于直接在 Web 项目中应用。所以 Rust 的项目结构自然就是一个 `lib` 的结构。
@@ -97,3 +103,4 @@ extern "C" {
 ## 体积优化
 
 https://gist.github.com/DefectingCat/6b9ab77833f270dcf77197e0e52f729a
+
