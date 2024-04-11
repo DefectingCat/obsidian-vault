@@ -1,0 +1,1 @@
+当一个父元素固定了大小，并且设置了 `overflow: hidden;` 时，子元素通过 `transform: translateX();` 等 transform CSS 来移动到父元素外隐藏自己时。移动到外层隐藏的动画是正常的，因为此时子元素是可见且已经渲染了的。但是当其从外层移进来时，由于 `overflow: hidden;` 影响，其子元素自身时没有被浏览器渲染的，这就导致了 transform 的动画无法生效。
