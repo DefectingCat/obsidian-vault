@@ -70,4 +70,50 @@ where
 }
 ```
 
-在 headers 中除了第一行 `HTTP/1.1 200 OK` 后续就全都是以键值对为组合的常规头部。
+在 headers 中除了第一行 `HTTP/1.1 200 OK` 后续就全都是以键值对为组合的常规头部。所以读取了 headers 所有的字节后，还需要一些简单的处理
+
+```rust
+impl Request {
+    /// Parse request from HTTP header's bytes that read from tcp.
+    #[inline]
+    pub fn parse_from_bytes(bytes: Bytes) -> Result<Self> {
+        let mut req = Self::default();
+
+        let collect_headers = |(i, l): (usize, &[u8])| {
+            // the first line is route path
+            // GET /v1/ HTTP/1.1
+            if i == 0 {
+                let route = l.split(|&b| b == b' ');
+                let (method, path, version) = route.enumerate().try_fold(
+                    (String::new(), PathBuf::new(), String::new()),
+                    fold_first_line,
+                )?;
+                req.method = method;
+                req.path = path;
+                req.version = version;
+                anyhow::Ok(())
+                // the second line is headers until \r\n\r\n
+            } else {
+                let heads = std::str::from_utf8(l)?.split(": ");
+                let (k, v) = heads
+                    .enumerate()
+                    .try_fold((String::new(), String::new()), fold_headers)?;
+                req.headers.entry(k).or_insert(v);
+                Ok(())
+            }
+        };
+
+        // GET /v1/ HTTP/1.1\r\nUser-Agent: ua\r\n ..
+        bytes
+            .split(|&b| b == b'\n')
+            .map(|line| line.strip_suffix(b"\r").unwrap_or(line))
+            .filter(|l| !l.is_empty())
+            .enumerate()
+            .try_for_each(collect_headers)?;
+
+        Ok(req)
+    }
+}
+```
+
+第一行主要有 3 个字段
