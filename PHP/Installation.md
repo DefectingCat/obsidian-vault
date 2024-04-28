@@ -12,7 +12,13 @@ git fetch --depth 10 --tags
 
 ```shell
 ./configure --prefix=/home/xfy/pl/local/bin/php/7.2.34 \
-	--enable-zip \
+  --enable-zip \
+  --enable-opcache \
+  --with-openssl
+```
+
+```shell
+make -j12 && make install
 ```
 
 ## `php.ini`
