@@ -14,7 +14,8 @@ git fetch --depth 10 --tags
 ./configure --prefix=/home/xfy/pl/local/bin/php/7.2.34 \
   --enable-zip \
   --enable-opcache \
-  --with-openssl
+  --with-openssl \
+  --with-openssl-dir=/usr/local/bin 
 ```
 
 ```shell
