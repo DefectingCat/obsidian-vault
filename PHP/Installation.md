@@ -11,7 +11,8 @@ git fetch --depth 10 --tags
 ```
 
 ```shell
-./configure --prefix=/home/xfy/pl/local/bin/php/7.2.34
+./configure --prefix=/home/xfy/pl/local/bin/php/7.2.34 \
+	--enable-zip \
 ```
 
 ## `php.ini`
