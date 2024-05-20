@@ -44,3 +44,5 @@ When using OpenZFS, execute the following commands to create datasets for these 
 # zfs create zroot/jails/templates
 # zfs create zroot/jails/containers
 ```
+
+https://mirrors.ustc.edu.cn/freebsd/releases/amd64/14.0-RELEASE/base.txz
