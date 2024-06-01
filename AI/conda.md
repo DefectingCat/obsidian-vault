@@ -1,1 +1,3 @@
-Conda 是 pythone 的
+Conda 是 python 的虚拟环境管理器。
+
+https://github.com/conda/conda
