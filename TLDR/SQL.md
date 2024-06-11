@@ -1,3 +1,25 @@
+## PSQL recursive query
+
+```sql
+with recursive test as (
+    select
+        id,
+        name,
+        pid
+    from menus where id = 2
+    union
+    select
+        p.id,
+        p.name,
+        p.pid
+    from menus as p
+    inner join test as c
+        on p.id = c.pid
+)
+
+select * from test;
+```
+
 ## Delete statement
 
 ```sql
