@@ -1,3 +1,23 @@
+## With query
+
+```sql
+with user_menus as (
+select
+        utm.id,
+        utm.mid
+from
+    user_to_menus utm
+where
+    uid = 2
+)
+select
+    *
+from
+    user_menus as um
+join menus as m on
+    um.mid = m.id;
+```
+
 ## PSQL recursive query
 
 ```sql
