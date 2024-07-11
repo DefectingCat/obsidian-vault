@@ -40,6 +40,13 @@ next.ServeHTTP(w, r)
 
 虽然标准库中的中间件很容易理解，但他有个很致命的问题，它需要我们手动的为每个路由都套上中间件函数。而没有一个标准方法来执行这些操作。
 
+最终的实现可能是复杂且多于的：
+
+```go
+mux := http.NewServeMux()
+mux.Handle("/", middlewareOne(middlewareTwo(finalHandler)))
+```
+
 ```go
 type Middleware func(http.Handler) http.Handler
 
