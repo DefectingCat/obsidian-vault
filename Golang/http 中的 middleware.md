@@ -35,3 +35,39 @@ next.ServeHTTP(w, r)
 ```
 
 而我们中间件所返回的 handler，既可以成为下一个中间件的参数，也可以是最后一个用来处理请求的 handler。
+
+## 封装
+
+虽然标准库中的中间件很容易理解，但他有个很致命的问题，它需要我们手动的为每个路由都套上中间件函数。而没有一个标准方法来执行这些操作。
+
+```go
+type Middleware func(http.Handler) http.Handler
+
+type App struct {
+	mux         *http.ServeMux
+	middlewares []Middleware
+}
+
+func NewApp() *App {
+	return &App{
+		mux:         http.NewServeMux(),
+		middlewares: []Middleware{},
+	}
+}
+
+func (a *App) Use(mw Middleware) {
+	a.middlewares = append(a.middlewares, mw)
+}
+
+func (a *App) Handle(pattern string, handler http.Handler) {
+	finalHandler := handler
+	for i := len(a.middlewares) - 1; i >= 0; i-- {
+		finalHandler = a.middlewares[i](finalHandler)
+	}
+	a.mux.Handle(pattern, finalHandler)
+}
+
+func (a *App) ListenAndServer(address string) error {
+	return http.ListenAndServe(address, a.mux)
+}
+```
